@@ -5,6 +5,7 @@ using System;
 using NeuralNetwork.Model;
 using System.Windows.Media.Imaging;
 using NeuralNetwork.Helper;
+using NeuralNetwork.BLL;
 using System.Drawing;
 
 namespace NeuralNetwork.ViewModel
@@ -27,6 +28,7 @@ namespace NeuralNetwork.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         /// 
+        private MyNeuralNetwork net;
         private Bee _bee;
         public Bee Bee
         {
@@ -68,6 +70,8 @@ namespace NeuralNetwork.ViewModel
             this.Honey = new Honey();
             this.Honey.X = 0;
             this.Honey.Y = 0;
+
+            this.net = new MyNeuralNetwork();
             
 
         }
@@ -79,6 +83,38 @@ namespace NeuralNetwork.ViewModel
             {
                 return _onLoadMainWindowCommand ?? (_onLoadMainWindowCommand = new RelayCommand(() => OnLoadMainWindow()));
             }
+        }
+
+        private ICommand _startCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                return _startCommand ?? (_startCommand = new RelayCommand(() => Start()));
+            }
+        }
+
+        private void Start()
+        {
+            for(int i = 0; i < 50; i++)
+            {
+
+                net.FeedForward(new float[] { 0, 1 });
+
+                net.FeedForward(new float[] { 1, 0 });
+
+                net.FeedForward(new float[] { 1, 1 });
+
+                net = new MyNeuralNetwork(net);
+
+                Console.WriteLine("----1---"+net.FeedForward(new float[] { 0, 1 })[0]);
+                Console.WriteLine("----2---"+net.FeedForward(new float[] { 1, 0 })[0]);
+                Console.WriteLine("----3---" + net.FeedForward(new float[] { 1, 1 })[0]);
+
+            }
+
+
+
         }
 
         private void OnLoadMainWindow()

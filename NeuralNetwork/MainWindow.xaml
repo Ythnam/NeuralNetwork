@@ -17,7 +17,10 @@
     </i:Interaction.Triggers>
 
     <Canvas>
-
+        <Button Width="30" Height="30"
+                Margin="300,0,0,0"
+                Content="Start"
+                Command="{Binding StartCommand}"/>
         <Image Source="{Binding Honey.HoneyBitmap}"
                Canvas.Left="{Binding Honey.X}"
                Canvas.Top="{Binding Honey.Y}"/>
