@@ -1,0 +1,29 @@
+﻿<Window x:Class="NeuralNetwork.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralNetwork"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadMainWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Canvas>
+
+        <Image Source="{Binding Honey.HoneyBitmap}"
+               Canvas.Left="{Binding Honey.X}"
+               Canvas.Top="{Binding Honey.Y}"/>
+        <Image Source="{Binding Bee.BeeBitmap}"
+                Canvas.Left="{Binding Bee.X}"
+                Canvas.Top="{Binding Bee.Y}"/>
+
+    </Canvas>
+</Window>
