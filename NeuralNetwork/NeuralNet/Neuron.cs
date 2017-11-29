@@ -14,16 +14,24 @@ namespace NeuralNetwork.NeuralNet
 
         public List<double> Outputs { get; set; } // All outputs of the neuron
 
-        public Tuple<int, int> NeuralPosition { get; } // This is the Layer of the neurone and his position on this layer
+        /// <summary>
+        /// This is the Layer of the neuron and his position on this layer
+        /// </summary>
+        public Tuple<int, int> NeuralPosition { get; }
 
-        public Neuron(List<double> _inputs, List<double> _weights, Tuple<int, int> _neuralPosition)
+        public Neuron(Tuple<int, int> _neuralPosition)
         {
-            this.Inputs = _inputs;
-            this.Weights = _weights;
             this.NeuralPosition = _neuralPosition;
-
-            this.CheckLenght();
         }
+
+        //public Neuron(List<double> _inputs, List<double> _weights, Tuple<int, int> _neuralPosition)
+        //{
+        //    this.Inputs = _inputs;
+        //    this.Weights = _weights;
+        //    this.NeuralPosition = _neuralPosition;
+
+        //    this.CheckLenght();
+        //}
 
         public Neuron(Neuron _neuron)
         {
