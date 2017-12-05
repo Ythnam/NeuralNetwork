@@ -77,14 +77,32 @@ namespace NeuralNetwork.NeuralNet
             }
         }
 
+        public List<double> ExecuteNetwork(List<double> _inputs)
+        {
+            //Check if lenght of the list of inputs is eguals to the number of neurons of 1st layer
+            if(_inputs.Count == this.nomberOfNeuroneForEachLayer[0])
+            {
+                foreach(Neuron neuron in Neurons)
+                {
+                    // Ajouter pour le 1er layer les inputs, faire une fonction générique. Ensuite faire propager la chose
+                    return null;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Nomber of input is different of the number of neurons on 1st layer");
+            }
+        }
 
+        /// <summary>
+        /// Allow to have negative Weights on this neural network
+        /// </summary>
+        /// <param name="_weight"></param>
+        /// <returns></returns>
         private double GetWeight(double _weight)
         {
             if(this.random.NextDouble() <= 0.5)
-            {
                 _weight = - _weight;
-            }
-
             return _weight;
         }
     }

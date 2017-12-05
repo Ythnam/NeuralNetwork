@@ -8,9 +8,9 @@ namespace NeuralNetwork.NeuralNet
 {
     static class NeuralFunction
     {
-        public static double Sigmoid(double seriesImput)
+        public static double Sigmoid(double _seriesImput)
         {
-            return (double)(1 / (1 + Math.Exp(-seriesImput)));
+            return (double)(1 / (1 + Math.Exp(-_seriesImput)));
         }
     }
 }
