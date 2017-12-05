@@ -12,7 +12,7 @@ namespace NeuralNetwork.NeuralNet
 
         public List<double> Weights { get; set; } // Weights needed for the output
 
-        public List<double> Outputs { get; set; } // All outputs of the neuron
+        public double Outputs { get; set; } // All outputs of the neuron
 
         /// <summary>
         /// This is the Layer of the neuron and his position on this layer
@@ -22,6 +22,8 @@ namespace NeuralNetwork.NeuralNet
         public Neuron(Tuple<int, int> _neuralPosition)
         {
             this.NeuralPosition = _neuralPosition;
+            this.Inputs = new List<double>();
+            this.Weights = new List<double>();
         }
 
         //public Neuron(List<double> _inputs, List<double> _weights, Tuple<int, int> _neuralPosition)

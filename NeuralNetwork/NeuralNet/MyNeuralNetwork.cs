@@ -11,6 +11,7 @@ namespace NeuralNetwork.NeuralNet
         public List<Neuron> Neurons { get; }
         public List<double> NetworkInputs { get; set; }
 
+        private int[] nomberOfNeuroneForEachLayer;
         private int layer;
         private Random random;
 
@@ -24,9 +25,10 @@ namespace NeuralNetwork.NeuralNet
         /// Create all neuron on the network
         /// </summary>
         /// <param name="_nomberOfNeuroneForEachLayer"> Ex : {2,3,1} means : 1st layer => 2 neurons, 2nd layer => 3 neurons, 3rd layer => 1 neuron</param>
-        public void GenerateNetwork(int[] _nomberOfNeuroneForEachLayer)
+        public void GenerateNeurons(int[] _nomberOfNeuroneForEachLayer)
         {
             this.layer = _nomberOfNeuroneForEachLayer.Length;
+            this.nomberOfNeuroneForEachLayer = _nomberOfNeuroneForEachLayer;
             // Iterate on number of layer
             for(int i = 0; i < this.layer; i++)
             {
@@ -42,11 +44,32 @@ namespace NeuralNetwork.NeuralNet
                 Console.WriteLine("Any neuron on this neural network");
         }
 
-        public void InitWieghtsOnNetwork()
+        /// <summary>
+        /// Init all weight with random values
+        /// Weight are on neurons for my model
+        /// Those weight of a Neuron are link with the input
+        /// </summary>
+        public void InitWeightsOnNetwork()
         {
-            if(this.GetTypeOfNetwork().Equals("Perceptron"))
+            // 2 case : Neuron on first layer and others
+            foreach(Neuron neuron in Neurons)
             {
-                
+                if(neuron.NeuralPosition.Item1 == 0)
+                {
+                    // 1 entry for 1st layer neuron
+                    // GetWeight allows negativ weights
+                    neuron.Weights.Add(GetWeight(this.random.NextDouble()));
+                }
+                else
+                {
+                    // Get previous neuron and add 1 Weight for each previous neuron
+                    for(int i = 0; i < this.nomberOfNeuroneForEachLayer[neuron.NeuralPosition.Item1 - 1]; i++)
+                    {
+                        // GetWeight allows negativ weights
+                        neuron.Weights.Add(GetWeight(this.random.NextDouble()));
+                    }
+                    
+                }
             }
         }
 
