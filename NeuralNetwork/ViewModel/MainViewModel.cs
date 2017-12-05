@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using NeuralNetwork.Helper;
 using System.Drawing;
 using NeuralNetwork.NeuralNet;
+using System.Collections.Generic;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -94,10 +95,14 @@ namespace NeuralNetwork.ViewModel
         private void OnGenerateNeuralForTest()
         {
             MyNeuralNetwork mnn = new MyNeuralNetwork();
-            int[] neurons = { 2, 3, 2 };
+            int[] neurons = { 3, 5, 2 };
             mnn.GenerateNeurons(neurons);
             mnn.InitWeightsOnNetwork();
-            mnn.Test(); // résultat de la sigmoid
+            List<double> inputs = new List<double>() { 2, 3, 4 };
+            List<double> coord = mnn.ExecuteNetwork(inputs);
+            this.Bee.X = (int) (coord[0] * 100);
+            this.Bee.Y = (int) (coord[1] * 100);
+
         }
 
         private void OnLoadMainWindow()
