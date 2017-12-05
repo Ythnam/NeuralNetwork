@@ -79,6 +79,9 @@
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />
+    <Compile Include="NeuralNet\MyNeuralNetwork.cs" />
+    <Compile Include="NeuralNet\NeuralFunction.cs" />
+    <Compile Include="NeuralNet\Neuron.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">

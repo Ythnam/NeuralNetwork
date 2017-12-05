@@ -6,6 +6,7 @@ using NeuralNetwork.Model;
 using System.Windows.Media.Imaging;
 using NeuralNetwork.Helper;
 using System.Drawing;
+using NeuralNetwork.NeuralNet;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -79,6 +80,23 @@ namespace NeuralNetwork.ViewModel
             {
                 return _onLoadMainWindowCommand ?? (_onLoadMainWindowCommand = new RelayCommand(() => OnLoadMainWindow()));
             }
+        }
+
+        private ICommand _onGenerateNeuralForTest;
+        public ICommand OnGenerateNeuralForTestCommand
+        {
+            get
+            {
+                return _onGenerateNeuralForTest ?? (_onGenerateNeuralForTest = new RelayCommand(() => OnGenerateNeuralForTest()));
+            }
+        }
+
+        private void OnGenerateNeuralForTest()
+        {
+            MyNeuralNetwork mnn = new MyNeuralNetwork();
+            int[] neurons = { 2, 3, 2 };
+            mnn.GenerateNeurons(neurons);
+            mnn.InitWeightsOnNetwork();
         }
 
         private void OnLoadMainWindow()

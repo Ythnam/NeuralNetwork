@@ -29,6 +29,7 @@ namespace NeuralNetwork.NeuralNet
         {
             this.layer = _nomberOfNeuroneForEachLayer.Length;
             this.nomberOfNeuroneForEachLayer = _nomberOfNeuroneForEachLayer;
+            Console.WriteLine("Nombre de neurons : " + this.nomberOfNeuroneForEachLayer);
             // Iterate on number of layer
             for(int i = 0; i < this.layer; i++)
             {
@@ -37,10 +38,11 @@ namespace NeuralNetwork.NeuralNet
                 {
                     Neuron neuron = new Neuron(new Tuple<int, int>(i,j));
                     this.Neurons.Add(neuron);
+                    Console.WriteLine("Neurons => i " + i + ", j "+ j);
                 }
             }
 
-            if (this.Neurons.Any())
+            if (!this.Neurons.Any())
                 Console.WriteLine("Any neuron on this neural network");
         }
 

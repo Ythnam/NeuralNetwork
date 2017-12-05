@@ -18,6 +18,11 @@
 
     <Canvas>
 
+        <Button Width="50" Height="20"
+                Name="Genrate_Neurons"
+                Content="Generate Neurons"
+                Command="{Binding OnGenerateNeuralForTestCommand}"/>
+
         <Image Source="{Binding Honey.HoneyBitmap}"
                Canvas.Left="{Binding Honey.X}"
                Canvas.Top="{Binding Honey.Y}"/>
