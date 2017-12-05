@@ -97,6 +97,7 @@ namespace NeuralNetwork.ViewModel
             int[] neurons = { 2, 3, 2 };
             mnn.GenerateNeurons(neurons);
             mnn.InitWeightsOnNetwork();
+            mnn.Test(); // résultat de la sigmoid
         }
 
         private void OnLoadMainWindow()

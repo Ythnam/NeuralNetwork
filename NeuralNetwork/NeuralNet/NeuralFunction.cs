@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.NeuralNet
 {
-    class NeuralFunction
+    static class NeuralFunction
     {
+        public static double Sigmoid(double seriesImput)
+        {
+            return (double)(1 / (1 + Math.Exp(-seriesImput)));
+        }
     }
 }

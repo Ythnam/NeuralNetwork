@@ -43,7 +43,7 @@ namespace NeuralNetwork.NeuralNet
             }
 
             if (!this.Neurons.Any())
-                Console.WriteLine("Any neuron on this neural network");
+                Console.WriteLine("Any neuron on this neural network ==> "+!this.Neurons.Any());
         }
 
         /// <summary>
@@ -61,6 +61,7 @@ namespace NeuralNetwork.NeuralNet
                     // 1 entry for 1st layer neuron
                     // GetWeight allows negativ weights
                     neuron.Weights.Add(GetWeight(this.random.NextDouble()));
+                    Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[0]);
                 }
                 else
                 {
@@ -69,37 +70,13 @@ namespace NeuralNetwork.NeuralNet
                     {
                         // GetWeight allows negativ weights
                         neuron.Weights.Add(GetWeight(this.random.NextDouble()));
+                        Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weight"+i+" = " + neuron.Weights[i]);
+
                     }
-                    
                 }
             }
         }
 
-        /// <summary>
-        /// Allow to know if the network got more than 1 neuron
-        /// </summary>
-        /// <returns> String which define if it is a perceptron or not </returns>
-        private string GetTypeOfNetwork()
-        {
-            switch (this.layer)
-            {
-                case 1:
-                    return "Perceptron";
-                case 0:
-                    return "Error";
-                default:
-                    return "NotPerceptron";
-            }
-        }
-
-        // Allow to know if a neuron is on a 1st layer, on the hidden layer or in the output layer easely
-        private void GetTypeOfNeuron(Neuron neuron)
-        {
-            if(neuron.NeuralPosition.Item1 == 0)
-            {
-
-            }
-        }
 
         private double GetWeight(double _weight)
         {
