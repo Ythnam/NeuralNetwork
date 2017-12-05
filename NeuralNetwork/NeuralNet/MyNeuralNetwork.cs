@@ -85,6 +85,7 @@ namespace NeuralNetwork.NeuralNet
             {
                 foreach(Neuron neuron in Neurons)
                 {
+                    neuron.Inputs = new List<double>(); // clear the inputs
                     if(neuron.NeuralPosition.Item1 == 0)
                     {
                         // Add for 1st layer neuron input. First input is for the first neuron etc..
