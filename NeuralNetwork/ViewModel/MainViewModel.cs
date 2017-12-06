@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 using NeuralNetwork.Helper;
 using System.Drawing;
 using NeuralNetwork.NeuralNet;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -73,6 +76,7 @@ namespace NeuralNetwork.ViewModel
 
         }
 
+        #region Command
         private ICommand _onLoadMainWindowCommand;
         public ICommand OnLoadMainWindowCommand
         {
@@ -90,19 +94,60 @@ namespace NeuralNetwork.ViewModel
                 return _onGenerateNeuralForTest ?? (_onGenerateNeuralForTest = new RelayCommand(() => OnGenerateNeuralForTest()));
             }
         }
+        #endregion
+
+        #region Function called by command
 
         private void OnGenerateNeuralForTest()
         {
-            MyNeuralNetwork mnn = new MyNeuralNetwork();
-            int[] neurons = { 2, 3, 2 };
-            mnn.GenerateNeurons(neurons);
+            int[] neuronsOnEachLayer = { 2, 3, 2 }; // 2neurones first layer, 3 second layer and 2 3rd layer
+            MyNeuralNetwork mnn = new MyNeuralNetwork(3, neuronsOnEachLayer);
+
+            mnn.GenerateNeurons();
             mnn.InitWeightsOnNetwork();
-            mnn.Test(); // résultat de la sigmoid
+
+            Random rand = new Random();
+
+            Task t = Task.Factory.StartNew(() =>
+           {
+               for (int i = 0; i < 500; i++)
+               {
+                   Thread.Sleep(100);
+                   List<double> inputs = new List<double>();
+                   inputs.Add(rand.NextDouble());
+                   inputs.Add(rand.NextDouble());
+                   inputs.Add(rand.NextDouble());
+                   List<double> coord = mnn.ExecuteNetwork(inputs);
+                   if (coord[0] > 0.5)
+                   {
+                       this.Bee.X = this.Bee.X + 1;
+                   }
+                   else
+                   {
+                       this.Bee.X = this.Bee.X - 1;
+                   }
+
+                   if (coord[1] > 0.5)
+                   {
+                       this.Bee.Y = this.Bee.Y + 1;
+                   }
+                   else
+                   {
+                       this.Bee.Y = this.Bee.Y - 1;
+                   }
+               }
+           });
         }
 
         private void OnLoadMainWindow()
         {
            
         }
+        #endregion
+
+        #region private function
+
+    #endregion
+
     }
 }
