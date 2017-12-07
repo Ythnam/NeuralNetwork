@@ -81,6 +81,7 @@ namespace NeuralNetwork.ViewModel
 
         public MainViewModel()
         {
+            this.MainCanvas = new Canvas();
             this.Bee = new Bee();
             this.Bee.X = 100;
             this.Bee.Y = 100;

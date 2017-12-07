@@ -17,7 +17,7 @@
     </i:Interaction.Triggers>
 
     <Canvas>
-
+        <ContentPresenter Content="{Binding MainCanvas}" />
         <Button Width="50" Height="20"
                 Name="Genrate_Neurons"
                 Content="Generate Neurons"

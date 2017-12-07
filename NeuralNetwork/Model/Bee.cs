@@ -74,6 +74,7 @@ namespace NeuralNetwork.Model
                 }
             }
         }
+
         #endregion
 
         public Bee()
