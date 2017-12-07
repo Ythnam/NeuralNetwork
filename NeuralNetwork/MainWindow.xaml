@@ -26,9 +26,14 @@
         <Image Source="{Binding Honey.HoneyBitmap}"
                Canvas.Left="{Binding Honey.X}"
                Canvas.Top="{Binding Honey.Y}"/>
+
         <Image Source="{Binding Bee.BeeBitmap}"
                 Canvas.Left="{Binding Bee.X}"
-                Canvas.Top="{Binding Bee.Y}"/>
+                Canvas.Top="{Binding Bee.Y}">
+            <Image.RenderTransform>
+                <RotateTransform Angle="{Binding Bee.Angle}" />
+            </Image.RenderTransform>
+        </Image>
 
     </Canvas>
 </Window>

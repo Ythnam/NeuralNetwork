@@ -10,6 +10,7 @@ using NeuralNetwork.NeuralNet;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -58,11 +59,25 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
-        private BitmapImage test = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Honey));
-        public BitmapImage Test
+        private Canvas _mainCanvas;
+        public Canvas MainCanvas
         {
-            get { return test; }
+            get { return this._mainCanvas; }
+            set
+            {
+                if (this._mainCanvas != value)
+                {
+                    this._mainCanvas = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
+
+        //private BitmapImage test = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Honey));
+        //public BitmapImage Test
+        //{
+        //    get { return test; }
+        //}
 
         public MainViewModel()
         {
@@ -112,7 +127,7 @@ namespace NeuralNetwork.ViewModel
            {
                for (int i = 0; i < 500; i++)
                {
-                   Thread.Sleep(100);
+                   Thread.Sleep(10);
                    List<double> inputs = new List<double>();
                    inputs.Add(rand.NextDouble());
                    inputs.Add(rand.NextDouble());
@@ -121,10 +136,16 @@ namespace NeuralNetwork.ViewModel
                    if (coord[0] > 0.5)
                    {
                        this.Bee.X = this.Bee.X + 1;
+                       if (this.Bee.Angle >= 360)
+                           this.Bee.Angle = this.Bee.Angle - 360;
+                       this.Bee.Angle += 15;
                    }
                    else
                    {
                        this.Bee.X = this.Bee.X - 1;
+                       if (this.Bee.Angle >= 360)
+                           this.Bee.Angle = this.Bee.Angle - 360;
+                       this.Bee.Angle += 15;
                    }
 
                    if (coord[1] > 0.5)

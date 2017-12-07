@@ -19,7 +19,13 @@ namespace NeuralNetwork.Model
             get { return _beeBitmap; }
         }
 
-        #region Coordonnées
+        #region Propriétés
+        private List<Sensor> _sensors;
+        public List<Sensor> Sensors
+        {
+            get { return this._sensors; }
+        }
+
         private int _x;
         public int X
         {
@@ -29,6 +35,10 @@ namespace NeuralNetwork.Model
                 if (this._x != value)
                 {
                     this._x = value;
+                    foreach(Sensor sensor in Sensors)
+                    {
+                        sensor.OriginX = value;
+                    }
                     RaisePropertyChanged();
                 }
             }
@@ -42,6 +52,24 @@ namespace NeuralNetwork.Model
                 if (this._y != value)
                 {
                     this._y = value;
+                    foreach (Sensor sensor in Sensors)
+                    {
+                        sensor.OriginY = value;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private int _angle;
+        public int Angle
+        {
+            get { return this._angle; }
+            set
+            {
+                if (this._angle != value)
+                {
+                    this._angle = value;
                     RaisePropertyChanged();
                 }
             }
@@ -50,6 +78,8 @@ namespace NeuralNetwork.Model
 
         public Bee()
         {
+            this.Angle = 0;
+            this._sensors = new List<Sensor>();
         }
     }
 }
