@@ -20,14 +20,26 @@ namespace NeuralNetwork.Model
         }
 
         #region Propriétés
-        private List<Sensor> _sensors;
-        public List<Sensor> Sensors
+        private Sensor _sensor1;
+        public Sensor Sensor1
         {
-            get { return this._sensors; }
+            get { return this._sensor1; }
         }
 
-        private int _x;
-        public int X
+        private Sensor _sensor2;
+        public Sensor Sensor2
+        {
+            get { return this._sensor2; }
+        }
+
+        private Sensor _sensor3;
+        public Sensor Sensor3
+        {
+            get { return this._sensor3; }
+        }
+
+        private double _x;
+        public double X
         {
             get { return this._x; }
             set
@@ -35,16 +47,18 @@ namespace NeuralNetwork.Model
                 if (this._x != value)
                 {
                     this._x = value;
-                    foreach(Sensor sensor in Sensors)
-                    {
-                        sensor.OriginX = value;
-                    }
+                    _sensor1.OriginX = value;
+                    _sensor1.EndLineX = value;
+                    _sensor2.OriginX = value;
+                    _sensor2.EndLineX = value;
+                    _sensor3.OriginX = value;
+                    _sensor3.EndLineX = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        private int _y;
-        public int Y
+        private double _y;
+        public double Y
         {
             get { return this._y; }
             set
@@ -52,17 +66,19 @@ namespace NeuralNetwork.Model
                 if (this._y != value)
                 {
                     this._y = value;
-                    foreach (Sensor sensor in Sensors)
-                    {
-                        sensor.OriginY = value;
-                    }
+                    _sensor1.OriginY = value;
+                    _sensor1.EndLineY = value;
+                    _sensor2.OriginY = value;
+                    _sensor2.EndLineY = value;
+                    _sensor3.OriginY = value;
+                    _sensor3.EndLineY = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        private int _angle;
-        public int Angle
+        private double _angle;
+        public double Angle
         {
             get { return this._angle; }
             set
@@ -80,7 +96,9 @@ namespace NeuralNetwork.Model
         public Bee()
         {
             this.Angle = 0;
-            this._sensors = new List<Sensor>();
+            this._sensor1 = new Sensor();
+            this._sensor2 = new Sensor(+Math.PI/4);
+            this._sensor3 = new Sensor(-Math.PI/4);
         }
     }
 }

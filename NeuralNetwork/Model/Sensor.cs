@@ -12,8 +12,8 @@ namespace NeuralNetwork.Model
         private static int LENGHT = 50;
 
         #region Properties
-        private int _originX;
-        public int OriginX
+        private double _originX;
+        public double OriginX
         {
             get { return _originX; }
             set
@@ -27,8 +27,8 @@ namespace NeuralNetwork.Model
             }
         }
 
-        private int _originY;
-        public int OriginY
+        private double _originY;
+        public double OriginY
         {
             get { return _originY; }
             set
@@ -41,16 +41,32 @@ namespace NeuralNetwork.Model
             }
         }
 
-        private int _endLineX;
-        public int EndLineX
+        private double _endLineX;
+        public double EndLineX
         {
             get { return _endLineX; }
+            set
+            {
+                if (this._endLineX != value)
+                {
+                    this._endLineX = this.OriginX + LENGHT * Math.Cos(Angle);
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        private int _endLineY;
-        public int EndLineY
+        private double _endLineY;
+        public double EndLineY
         {
             get { return _endLineY; }
+            set
+            {
+                if (this._endLineY != value)
+                {
+                    this._endLineY = this.OriginY + LENGHT * Math.Sin(Angle);
+                    RaisePropertyChanged();
+                }
+            }
         }
 
 
@@ -76,10 +92,8 @@ namespace NeuralNetwork.Model
             this.Angle = 0;
         }
 
-        public Sensor(int _X, int _Y, double _ang)
+        public Sensor(double _ang)
         {
-            this.OriginX = _X;
-            this.OriginY = _Y;
             this.Angle = _ang;
         }
     }

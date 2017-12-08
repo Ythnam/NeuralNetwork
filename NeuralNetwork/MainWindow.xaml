@@ -34,6 +34,18 @@
                 <RotateTransform Angle="{Binding Bee.Angle}" />
             </Image.RenderTransform>
         </Image>
+        <Line X1="{Binding Bee.Sensor1.OriginX}" Y1="{Binding Bee.Sensor1.OriginY}"
+              X2="{Binding Bee.Sensor1.EndLineX}" Y2="{Binding Bee.Sensor1.EndLineY}"
+              Stroke="Black"
+              StrokeThickness="1"/>
+        <Line X1="{Binding Bee.Sensor2.OriginX}" Y1="{Binding Bee.Sensor2.OriginY}"
+              X2="{Binding Bee.Sensor2.EndLineX}" Y2="{Binding Bee.Sensor2.EndLineY}"
+              Stroke="Black"
+              StrokeThickness="1"/>
+        <Line X1="{Binding Bee.Sensor3.OriginX}" Y1="{Binding Bee.Sensor3.OriginY}"
+              X2="{Binding Bee.Sensor3.EndLineX}" Y2="{Binding Bee.Sensor3.EndLineY}"
+              Stroke="Black"
+              StrokeThickness="1"/>
 
     </Canvas>
 </Window>
