@@ -97,8 +97,8 @@ namespace NeuralNetwork.Model
         {
             this.Angle = 0;
             this._sensor1 = new Sensor();
-            this._sensor2 = new Sensor(+Math.PI/4);
-            this._sensor3 = new Sensor(-Math.PI/4);
+            this._sensor2 = new Sensor(+Math.PI/6);
+            this._sensor3 = new Sensor(-Math.PI/6);
         }
     }
 }

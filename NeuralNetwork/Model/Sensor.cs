@@ -9,7 +9,7 @@ namespace NeuralNetwork.Model
 {
     public class Sensor : ObservableObject
     {
-        private static int LENGHT = 50;
+        private static int LENGHT = 25;
 
         #region Properties
         private double _originX;

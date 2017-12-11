@@ -23,7 +23,7 @@
                 Content="Generate Neurons"
                 Command="{Binding OnGenerateNeuralForTestCommand}"/>
 
-        <Image Source="{Binding Honey.HoneyBitmap}"
+        <!--<Image Source="{Binding Honey.HoneyBitmap}"
                Canvas.Left="{Binding Honey.X}"
                Canvas.Top="{Binding Honey.Y}"/>
 
@@ -33,7 +33,7 @@
             <Image.RenderTransform>
                 <RotateTransform Angle="{Binding Bee.Angle}" />
             </Image.RenderTransform>
-        </Image>
+        </Image>-->
         <Line X1="{Binding Bee.Sensor1.OriginX}" Y1="{Binding Bee.Sensor1.OriginY}"
               X2="{Binding Bee.Sensor1.EndLineX}" Y2="{Binding Bee.Sensor1.EndLineY}"
               Stroke="Black"
