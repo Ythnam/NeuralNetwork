@@ -13,11 +13,11 @@ namespace NeuralNetwork.Model
     public class Bee : ObservableObject
     {
         
-        private static BitmapImage _beeBitmap = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Bee));
-        public static BitmapImage BeeBitmap
-        {
-            get { return _beeBitmap; }
-        }
+        //private static BitmapImage _beeBitmap = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Bee));
+        //public static BitmapImage BeeBitmap
+        //{
+        //    get { return _beeBitmap; }
+        //}
 
         #region Propriétés
         private Sensor _sensor1;
@@ -48,11 +48,8 @@ namespace NeuralNetwork.Model
                 {
                     this._x = value;
                     _sensor1.OriginX = value;
-                    _sensor1.EndLineX = value;
                     _sensor2.OriginX = value;
-                    _sensor2.EndLineX = value;
                     _sensor3.OriginX = value;
-                    _sensor3.EndLineX = value;
                     RaisePropertyChanged();
                 }
             }
@@ -67,11 +64,8 @@ namespace NeuralNetwork.Model
                 {
                     this._y = value;
                     _sensor1.OriginY = value;
-                    _sensor1.EndLineY = value;
                     _sensor2.OriginY = value;
-                    _sensor2.EndLineY = value;
                     _sensor3.OriginY = value;
-                    _sensor3.EndLineY = value;
                     RaisePropertyChanged();
                 }
             }
@@ -86,6 +80,9 @@ namespace NeuralNetwork.Model
                 if (this._angle != value)
                 {
                     this._angle = value;
+                    this._sensor1.Angle = value;
+                    this._sensor2.Angle = value;
+                    this._sensor3.Angle = value;
                     RaisePropertyChanged();
                 }
             }
@@ -95,10 +92,11 @@ namespace NeuralNetwork.Model
 
         public Bee()
         {
+            
+            this._sensor1 = new Sensor(0);
+            this._sensor2 = new Sensor(+Math.PI / 6);
+            this._sensor3 = new Sensor(-Math.PI / 6);
             this.Angle = 0;
-            this._sensor1 = new Sensor();
-            this._sensor2 = new Sensor(+Math.PI/6);
-            this._sensor3 = new Sensor(-Math.PI/6);
         }
     }
 }

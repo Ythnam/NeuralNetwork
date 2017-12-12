@@ -128,25 +128,29 @@ namespace NeuralNetwork.ViewModel
            {
                for (int i = 0; i < 500; i++)
                {
-                   Thread.Sleep(10);
+                   Thread.Sleep(100);
                    List<double> inputs = new List<double>();
-                   inputs.Add(rand.NextDouble());
-                   inputs.Add(rand.NextDouble());
-                   inputs.Add(rand.NextDouble());
+                   //inputs.Add(rand.NextDouble());
+                   //inputs.Add(rand.NextDouble());
+                   //inputs.Add(rand.NextDouble());
+                   inputs.Add(this.Bee.Sensor1.EndLineX);
+                   inputs.Add(this.Bee.Sensor2.EndLineX);
+                   inputs.Add(this.Bee.Sensor3.EndLineX);
+
                    List<double> coord = mnn.ExecuteNetwork(inputs);
                    if (coord[0] > 0.5)
                    {
                        this.Bee.X = this.Bee.X + 1;
-                       if (this.Bee.Angle >= 360)
-                           this.Bee.Angle = this.Bee.Angle - 360;
-                       this.Bee.Angle += 15;
+                       if (this.Bee.Angle >= (2*Math.PI))
+                           this.Bee.Angle = this.Bee.Angle - (2 * Math.PI);
+                       this.Bee.Angle += Math.PI/16;
                    }
                    else
                    {
                        this.Bee.X = this.Bee.X - 1;
-                       if (this.Bee.Angle >= 360)
-                           this.Bee.Angle = this.Bee.Angle - 360;
-                       this.Bee.Angle += 15;
+                       if (this.Bee.Angle >= (2 * Math.PI))
+                           this.Bee.Angle = this.Bee.Angle - (2 * Math.PI);
+                       this.Bee.Angle += Math.PI / 16;
                    }
 
                    if (coord[1] > 0.5)
@@ -157,6 +161,11 @@ namespace NeuralNetwork.ViewModel
                    {
                        this.Bee.Y = this.Bee.Y - 1;
                    }
+
+
+                   //this.Bee.Angle = coord[1] * 2 * Math.PI; // 360 degree is 2Pi then i m between 0 and 2PI
+
+                   Console.WriteLine("Bee angle : " + this.Bee.Angle + ", Bee corrd[1] = " + coord[1]);
                }
            });
         }

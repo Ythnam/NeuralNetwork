@@ -33,7 +33,7 @@ namespace NeuralNetwork.NeuralNet
         public void GenerateNeurons()
         {
             
-            Console.WriteLine("Nombre de neurons : " + this.nomberOfNeuroneForEachLayer);
+            //Console.WriteLine("Nombre de neurons : " + this.nomberOfNeuroneForEachLayer);
             // Iterate on number of layer
             for(int i = 0; i < this.layer; i++)
             {
@@ -42,7 +42,7 @@ namespace NeuralNetwork.NeuralNet
                 {
                     Neuron neuron = new Neuron(new Tuple<int, int>(i,j));
                     this.Neurons.Add(neuron);
-                    Console.WriteLine("Neurons => i " + i + ", j "+ j);
+                    //Console.WriteLine("Neurons => i " + i + ", j "+ j);
                 }
             }
 
@@ -66,7 +66,7 @@ namespace NeuralNetwork.NeuralNet
                     for(int i = 0; i < numberOfInputs; i++)
                     {
                         neuron.Weights.Add(GetWeight(this.random.NextDouble()));
-                        Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[i]);
+                    //    Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[i]);
                     }
                 }
                 else
@@ -77,7 +77,7 @@ namespace NeuralNetwork.NeuralNet
                     {
                         // GetWeight allows negativ weights
                         neuron.Weights.Add(GetWeight(this.random.NextDouble()));
-                        Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weight"+i+" = " + neuron.Weights[i]);
+                        //Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weight"+i+" = " + neuron.Weights[i]);
 
                     }
                 }
@@ -98,7 +98,7 @@ namespace NeuralNetwork.NeuralNet
                         for(int i = 0; i < numberOfInputs; i++)
                         {
                             neuron.Inputs.Add(_inputs[i]);
-                            Console.WriteLine("--------------" + _inputs[i]);
+                            //Console.WriteLine("--------------" + _inputs[i]);
                         }
                         
                         // Current neuron will get his output
@@ -169,7 +169,7 @@ namespace NeuralNetwork.NeuralNet
             for(int i = 0; i < _neuron.Inputs.Count; i++)
             {
                 sum += _neuron.Inputs[i] * _neuron.Weights[i];
-                Console.WriteLine("Somme numéro " + i + " = " + sum);
+                //Console.WriteLine("Somme numéro " + i + " = " + sum);
             }
             _neuron.Outputs = NeuralFunction.Sigmoid(sum);
         }

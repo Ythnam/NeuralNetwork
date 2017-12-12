@@ -10,6 +10,7 @@ namespace NeuralNetwork.Model
     public class Sensor : ObservableObject
     {
         private static int LENGHT = 25;
+        private double _angleSensor; // Basic angle of each sensor
 
         #region Properties
         private double _originX;
@@ -21,7 +22,7 @@ namespace NeuralNetwork.Model
                 if(this._originX != value)
                 {
                     this._originX = value;
-                    //this._endLineX = value 
+                    this.EndLineX = value + LENGHT * Math.Cos(Angle);
                     RaisePropertyChanged();
                 }
             }
@@ -36,6 +37,7 @@ namespace NeuralNetwork.Model
                 if (this._originY != value)
                 {
                     this._originY = value;
+                    this.EndLineY = value + LENGHT * Math.Sin(Angle);
                     RaisePropertyChanged();
                 }
             }
@@ -49,7 +51,7 @@ namespace NeuralNetwork.Model
             {
                 if (this._endLineX != value)
                 {
-                    this._endLineX = this.OriginX + LENGHT * Math.Cos(Angle);
+                    this._endLineX = value;
                     RaisePropertyChanged();
                 }
             }
@@ -63,11 +65,12 @@ namespace NeuralNetwork.Model
             {
                 if (this._endLineY != value)
                 {
-                    this._endLineY = this.OriginY + LENGHT * Math.Sin(Angle);
+                    this._endLineY = value;
                     RaisePropertyChanged();
                 }
             }
         }
+
 
 
         private double _angle;
@@ -76,25 +79,29 @@ namespace NeuralNetwork.Model
             get { return _angle; }
             set
             {
-                if (this._angle != value)
-                {
-                    this._angle = value;
+                //if (this._angle != value)
+                //{
+                    //if (this._angle >= (2 * Math.PI))
+                    //    this._angle = this._angle - (2 * Math.PI); // Modulo 2PI
+                    this._angle = this._angleSensor + value;
+                    Console.WriteLine("Angle Sensor = " + this._angle);
                     RaisePropertyChanged();
-                }
+                //}
             }
         }
-        #endregion
 
-        public Sensor()
-        {
-            this.OriginX = 0;
-            this.OriginY = 0;
-            this.Angle = 0;
-        }
+        // Basic angle of each sensor
+        //private double _angleSensor;
+        //public double AngleSensor
+        //{
+        //    get { return _angleSensor; }
+        //}
+        #endregion
 
         public Sensor(double _ang)
         {
-            this.Angle = _ang;
+            this._angleSensor = _ang;
+            this.Angle = 0;
         }
     }
 }
