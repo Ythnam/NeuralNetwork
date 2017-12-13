@@ -13,6 +13,20 @@ namespace NeuralNetwork.Model
         private double _angleSensor; // Basic angle of each sensor
 
         #region Properties
+        private double _state;
+        public double State
+        {
+            get { return _state; }
+            set
+            {
+                if (this._state != value)
+                {
+                    this._state = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private double _originX;
         public double OriginX
         {
