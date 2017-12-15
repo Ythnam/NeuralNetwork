@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.NeuralNet
 {
-    class MyNeuralNetwork
+    public class MyNeuralNetwork
     {
         public List<Neuron> Neurons { get; }
         public List<double> NetworkInputs { get; set; }
@@ -159,6 +159,8 @@ namespace NeuralNetwork.NeuralNet
             return previousLayer;
         }
 
+        #region Private Function
+
         /// <summary>
         /// Multiply all input with their weights and add them. Then use the sigmoid function to have a nomber between 0 and 1. Add this to Output of Neuron
         /// </summary>
@@ -187,5 +189,9 @@ namespace NeuralNetwork.NeuralNet
                 _weight = - _weight;
             return _weight;
         }
+
+        #endregion
+
+        
     }
 }

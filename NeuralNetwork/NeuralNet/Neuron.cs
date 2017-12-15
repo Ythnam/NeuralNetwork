@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork.NeuralNet
 {
-    class Neuron
+    public class Neuron
     {
         public List<double> Inputs { get; set; } // All input on the neuron
 

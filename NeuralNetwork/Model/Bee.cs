@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using NeuralNetwork.Helper;
+using NeuralNetwork.NeuralNet;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +13,7 @@ namespace NeuralNetwork.Model
 {
     public class Bee : ObservableObject
     {
-        
+
         //private static BitmapImage _beeBitmap = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Bee));
         //public static BitmapImage BeeBitmap
         //{
@@ -20,22 +21,24 @@ namespace NeuralNetwork.Model
         //}
 
         #region Propriétés
-        private Sensor _sensor1;
-        public Sensor Sensor1
+        /// <summary>
+        /// Simulate sensors
+        /// </summary>
+        private List<Sensor> _sensors;
+        public List<Sensor> Sensors
         {
-            get { return this._sensor1; }
+            get { return this._sensors; }
         }
 
-        private Sensor _sensor2;
-        public Sensor Sensor2
+        private MyNeuralNetwork _neuralNetwork;
+        public MyNeuralNetwork NeuralNetwork
         {
-            get { return this._sensor2; }
-        }
-
-        private Sensor _sensor3;
-        public Sensor Sensor3
-        {
-            get { return this._sensor3; }
+            get { return this._neuralNetwork; }
+            set
+            {
+                if (this._neuralNetwork != value)
+                    this._neuralNetwork = value;
+            }
         }
 
         private double _x;
@@ -47,9 +50,8 @@ namespace NeuralNetwork.Model
                 if (this._x != value)
                 {
                     this._x = value;
-                    _sensor1.OriginX = value;
-                    _sensor2.OriginX = value;
-                    _sensor3.OriginX = value;
+                    foreach (Sensor sensor in Sensors)
+                        sensor.OriginX = value;
                     RaisePropertyChanged();
                 }
             }
@@ -63,9 +65,8 @@ namespace NeuralNetwork.Model
                 if (this._y != value)
                 {
                     this._y = value;
-                    _sensor1.OriginY = value;
-                    _sensor2.OriginY = value;
-                    _sensor3.OriginY = value;
+                    foreach (Sensor sensor in Sensors)
+                        sensor.OriginY = value;
                     RaisePropertyChanged();
                 }
             }
@@ -80,9 +81,8 @@ namespace NeuralNetwork.Model
                 if (this._angle != value)
                 {
                     this._angle = value;
-                    this._sensor1.Angle = value;
-                    this._sensor2.Angle = value;
-                    this._sensor3.Angle = value;
+                    foreach (Sensor sensor in Sensors)
+                        sensor.Angle = value;
                     RaisePropertyChanged();
                 }
             }
@@ -92,10 +92,14 @@ namespace NeuralNetwork.Model
 
         public Bee()
         {
-            
-            this._sensor1 = new Sensor(0);
-            this._sensor2 = new Sensor(+Math.PI / 6);
-            this._sensor3 = new Sensor(-Math.PI / 6);
+            this._sensors = new List<Sensor>();
+            Sensor _sensor1 = new Sensor(0);
+            Sensor _sensor2 = new Sensor(+Math.PI / 6);
+            Sensor _sensor3 = new Sensor(-Math.PI / 6);
+
+            this.Sensors.Add(_sensor1);
+            this.Sensors.Add(_sensor2);
+            this.Sensors.Add(_sensor3);
             this.Angle = 0;
         }
     }
