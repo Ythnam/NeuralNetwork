@@ -19,47 +19,43 @@ namespace NeuralNetwork.BLL
 
             Random rand = new Random();
 
-            Task t = Task.Factory.StartNew(() =>
+            List<double> inputs = new List<double>();
+
+            foreach (Sensor sensor in bee.Sensors)
+                inputs.Add(sensor.State);
+
+            List<double> coord = bee.NeuralNetwork.ExecuteNetwork(inputs);
+            if (coord[0] > 0.5)
             {
-                for (int i = 0; i < 500; i++)
-                {
-                    //Thread.Sleep(100);
-                    List<double> inputs = new List<double>();
+                bee.X = bee.X + 1;
+                if (bee.Angle >= (2 * Math.PI))
+                    bee.Angle = bee.Angle - (2 * Math.PI);
+                bee.Angle += Math.PI / 16;
+            }
+            else
+            {
+                bee.X = bee.X - 1;
+                if (bee.Angle >= (2 * Math.PI))
+                    bee.Angle = bee.Angle - (2 * Math.PI);
+                bee.Angle += Math.PI / 16;
+            }
 
-                    foreach (Sensor sensor in bee.Sensors)
-                        inputs.Add(sensor.State);
+            if (coord[1] > 0.5)
+            {
+                bee.Y = bee.Y + 1;
+            }
+            else
+            {
+                bee.Y = bee.Y - 1;
+            }
 
-                    List<double> coord = bee.NeuralNetwork.ExecuteNetwork(inputs);
-                    if (coord[0] > 0.5)
-                    {
-                        bee.X = bee.X + 1;
-                        if (bee.Angle >= (2 * Math.PI))
-                            bee.Angle = bee.Angle - (2 * Math.PI);
-                        bee.Angle += Math.PI / 16;
-                    }
-                    else
-                    {
-                        bee.X = bee.X - 1;
-                        if (bee.Angle >= (2 * Math.PI))
-                            bee.Angle = bee.Angle - (2 * Math.PI);
-                        bee.Angle += Math.PI / 16;
-                    }
+            bee.Angle = coord[1] * 2 * Math.PI; // 360 degree is 2Pi then i m between 0 and 2PI
 
-                    if (coord[1] > 0.5)
-                    {
-                        bee.Y = bee.Y + 1;
-                    }
-                    else
-                    {
-                        bee.Y = bee.Y - 1;
-                    }
+            //Reprint cause Proc the on preperty change (HAVE TO CHANGE THAT BUT I DON'T REALLY KNOW HOW)
+            foreach (Sensor sensor in bee.Sensors)
+                sensor.Display2DReprensation();
 
-
-                    //this.Bee.Angle = coord[1] * 2 * Math.PI; // 360 degree is 2Pi then i m between 0 and 2PI
-
-                    Console.WriteLine("Bee angle : " + bee.Angle + ", Bee corrd[1] = " + coord[1]);
-                }
-            });
+            Console.WriteLine("Bee angle : " + bee.Angle + ", Bee corrd[1] = " + coord[1]);
         }
     }
 }

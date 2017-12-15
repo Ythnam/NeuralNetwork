@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace NeuralNetwork.Model
 {
@@ -85,7 +87,17 @@ namespace NeuralNetwork.Model
             }
         }
 
-
+        private Line _display;
+        public Line Display
+        {
+            get { return this._display;
+            }
+            private set
+            {
+                this._display = Display;
+                RaisePropertyChanged();
+            }
+        }
 
         private double _angle;
         public double Angle
@@ -116,6 +128,23 @@ namespace NeuralNetwork.Model
         {
             this._angleSensor = _ang;
             this.Angle = 0;
+            this._display = new Line();
+            this.Display.Stroke = Brushes.Black;
+        }
+
+        private void CreateLine()
+        {
+            this._display.X1 = this._originX;
+            this._display.Y1 = this.OriginY;
+            this._display.X2 = this.EndLineX;
+            this._display.Y2 = this.EndLineY;
+            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++ TEST QUE CA MARCHE");
+        }
+
+        public void Display2DReprensation()
+        {
+            CreateLine();
+            RaisePropertyChanged();
         }
     }
 }

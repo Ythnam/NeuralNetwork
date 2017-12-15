@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Controls;
 using NeuralNetwork.BLL;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -34,6 +36,7 @@ namespace NeuralNetwork.ViewModel
         /// </summary>
         /// 
         private NeuralNetworkManager _neuralNetworkManager;
+        private DispatcherTimer timer = null;
 
         private Bee _bee;
         public Bee Bee
@@ -93,7 +96,22 @@ namespace NeuralNetwork.ViewModel
             this.Honey.Y = 0;
             this._neuralNetworkManager = new NeuralNetworkManager();
 
+            foreach (Sensor sensor in this.Bee.Sensors)
+            {
+                this.MainCanvas.Children.Add(sensor.Display);
+                sensor.Display2DReprensation();
+            }
 
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            timer.Tick += timer_Tick;
+            timer.Start();
+            timer.IsEnabled = true;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            this._neuralNetworkManager.ManageOutputsOfNetwork(this.Bee);
         }
 
         #region Command
