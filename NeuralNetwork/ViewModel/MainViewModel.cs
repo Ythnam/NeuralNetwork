@@ -122,11 +122,14 @@ namespace NeuralNetwork.ViewModel
         {
             int[] neuronsOnEachLayer = { 2, 3, 2 }; // 2neurones first layer, 3 second layer and 2 3rd layer
             MyNeuralNetwork mnn = new MyNeuralNetwork(3, neuronsOnEachLayer);
+            mnn.GenerateNeurons();
+            mnn.InitWeightsOnNetwork();
 
-            List<Sensor> sensors = new List<Sensor>();
-            sensors.Add(this.Bee.Sensor1);
-            sensors.Add(this.Bee.Sensor2);
-            sensors.Add(this.Bee.Sensor3);
+            List<double> sensors = new List<double>();
+            sensors.Add(this.Bee.Sensor1.State);
+            sensors.Add(this.Bee.Sensor2.State);
+            sensors.Add(this.Bee.Sensor3.State);
+
 
             this._neuralNetworkManager.ManageOutputsOfNetwork(sensors, mnn);
 
