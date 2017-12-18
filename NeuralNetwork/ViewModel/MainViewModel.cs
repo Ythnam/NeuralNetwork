@@ -38,16 +38,16 @@ namespace NeuralNetwork.ViewModel
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
 
-        private Bee _bee;
-        public Bee Bee
+        private List<Bee> _bees;
+        public List<Bee> Bees
         {
-            get { return this._bee; }
+            get { return this._bees; }
             set
             {
-                if(this._bee != value)
+                if(this._bees != value)
                 {
-                    this._bee = value;
-                    RaisePropertyChanged();
+                    this._bees = value;
+                    //RaisePropertyChanged();
                 }
             }
         }
@@ -88,19 +88,32 @@ namespace NeuralNetwork.ViewModel
         public MainViewModel()
         {
             this.MainCanvas = new Canvas();
-            this.Bee = new Bee();
-            this.Bee.X = 100;
-            this.Bee.Y = 100;
-            this.Honey = new Honey();
-            this.Honey.X = 0;
-            this.Honey.Y = 0;
+            this.Bees = new List<Bee>();
+            Bee bee = new Bee();
+            bee.X = 100;
+            bee.Y = 100;
+
+            int[] neuronsOnEachLayer = { 2, 3, 2 }; // 2neurones first layer, 3 second layer and 2 3rd layer
+            bee.NeuralNetwork = new MyNeuralNetwork(3, neuronsOnEachLayer);
+            bee.NeuralNetwork.GenerateNeurons();
+            bee.NeuralNetwork.InitWeightsOnNetwork();
+
+
+            this.Bees.Add(bee);
+            this.Honey = new Honey(150,50);
             this._neuralNetworkManager = new NeuralNetworkManager();
 
-            foreach (Sensor sensor in this.Bee.Sensors)
+            foreach(Bee _bee in Bees)
             {
-                this.MainCanvas.Children.Add(sensor.Display);
-                sensor.Display2DReprensation();
+                foreach (Sensor sensor in _bee.Sensors)
+                {
+                    this.MainCanvas.Children.Add(sensor.Display);
+                    sensor.Display2DReprensation();
+                }
             }
+            this.MainCanvas.Children.Add(this.Honey.Rectangle);
+            this.Honey.DrawRectangle();
+            
 
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
@@ -111,7 +124,7 @@ namespace NeuralNetwork.ViewModel
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this._neuralNetworkManager.ManageOutputsOfNetwork(this.Bee);
+            this._neuralNetworkManager.ManageOutputsOfNetwork(this.Bees);
         }
 
         #region Command
@@ -139,60 +152,6 @@ namespace NeuralNetwork.ViewModel
         private void OnGenerateNeuralForTest()
         {
 
-            this._neuralNetworkManager.ManageOutputsOfNetwork(this.Bee);
-
-            // int[] neuronsOnEachLayer = { 2, 3, 2 }; // 2neurones first layer, 3 second layer and 2 3rd layer
-            // MyNeuralNetwork mnn = new MyNeuralNetwork(3, neuronsOnEachLayer);
-
-            // mnn.GenerateNeurons();
-            // mnn.InitWeightsOnNetwork();
-
-            // Random rand = new Random();
-
-            // Task t = Task.Factory.StartNew(() =>
-            //{
-            //    for (int i = 0; i < 500; i++)
-            //    {
-            //        Thread.Sleep(100);
-            //        List<double> inputs = new List<double>();
-            //        //inputs.Add(rand.NextDouble());
-            //        //inputs.Add(rand.NextDouble());
-            //        //inputs.Add(rand.NextDouble());
-            //        inputs.Add(this.Bee.Sensor1.EndLineX);
-            //        inputs.Add(this.Bee.Sensor2.EndLineX);
-            //        inputs.Add(this.Bee.Sensor3.EndLineX);
-
-            //        List<double> coord = mnn.ExecuteNetwork(inputs);
-            //        if (coord[0] > 0.5)
-            //        {
-            //            this.Bee.X = this.Bee.X + 1;
-            //            if (this.Bee.Angle >= (2*Math.PI))
-            //                this.Bee.Angle = this.Bee.Angle - (2 * Math.PI);
-            //            this.Bee.Angle += Math.PI/16;
-            //        }
-            //        else
-            //        {
-            //            this.Bee.X = this.Bee.X - 1;
-            //            if (this.Bee.Angle >= (2 * Math.PI))
-            //                this.Bee.Angle = this.Bee.Angle - (2 * Math.PI);
-            //            this.Bee.Angle += Math.PI / 16;
-            //        }
-
-            //        if (coord[1] > 0.5)
-            //        {
-            //            this.Bee.Y = this.Bee.Y + 1;
-            //        }
-            //        else
-            //        {
-            //            this.Bee.Y = this.Bee.Y - 1;
-            //        }
-
-
-            //        //this.Bee.Angle = coord[1] * 2 * Math.PI; // 360 degree is 2Pi then i m between 0 and 2PI
-
-            //        Console.WriteLine("Bee angle : " + this.Bee.Angle + ", Bee corrd[1] = " + coord[1]);
-            //    }
-            //});
         }
 
         private void OnLoadMainWindow()
