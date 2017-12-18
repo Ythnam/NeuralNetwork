@@ -1,14 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
-using NeuralNetwork.Helper;
-using System;
-using System.Collections.Generic;
 using System.Windows.Shapes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System;
 
 namespace NeuralNetwork.Model
 {
@@ -20,6 +14,10 @@ namespace NeuralNetwork.Model
         //    get { return _honeyBitmap; }
         //}
 
+
+        /// <summary>
+        /// Usefull for the 2D representation
+        /// </summary>
         private Rectangle _rect;
         public Rectangle Rectangle
         {
@@ -63,12 +61,12 @@ namespace NeuralNetwork.Model
             this._rect.SetValue(Canvas.LeftProperty, _x);
             this._rect.SetValue(Canvas.TopProperty, _y);
 
-            this._rect.Width = 5;
-            this._rect.Height = 5;
+            this._rect.Width = 15;
+            this._rect.Height = 15;
             this._rect.Stroke = Brushes.Black;
         }
 
-        public void DrawRectangle()
+        public void Display2DRepresentation()
         {
             this._rect.SetValue(Canvas.LeftProperty, this.X);
             this._rect.SetValue(Canvas.TopProperty, this.Y);

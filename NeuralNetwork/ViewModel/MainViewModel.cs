@@ -51,15 +51,15 @@ namespace NeuralNetwork.ViewModel
                 }
             }
         }
-        private Honey _honey;
-        public Honey Honey
+        private List<Honey> _honeys;
+        public List<Honey> Honeys
         {
-            get { return this._honey; }
+            get { return this._honeys; }
             set
             {
-                if (this._honey != value)
+                if (this._honeys != value)
                 {
-                    this._honey = value;
+                    this._honeys = value;
                     RaisePropertyChanged();
                 }
             }
@@ -89,6 +89,9 @@ namespace NeuralNetwork.ViewModel
         {
             this.MainCanvas = new Canvas();
             this.Bees = new List<Bee>();
+            this.Honeys = new List<Honey>();
+
+
             Bee bee = new Bee();
             bee.X = 100;
             bee.Y = 100;
@@ -100,10 +103,19 @@ namespace NeuralNetwork.ViewModel
 
 
             this.Bees.Add(bee);
-            this.Honey = new Honey(150,50);
+
+            Honey honey = new Honey(150, 50);
+            this.Honeys.Add(honey);
+            Honey honey1 = new Honey(50, 50);
+            this.Honeys.Add(honey1);
+            Honey honey2 = new Honey(150, 150);
+            this.Honeys.Add(honey2);
+            Honey honey3 = new Honey(50, 150);
+            this.Honeys.Add(honey3);
+
             this._neuralNetworkManager = new NeuralNetworkManager();
 
-            foreach(Bee _bee in Bees)
+            foreach(Bee _bee in this.Bees)
             {
                 foreach (Sensor sensor in _bee.Sensors)
                 {
@@ -111,8 +123,12 @@ namespace NeuralNetwork.ViewModel
                     sensor.Display2DReprensation();
                 }
             }
-            this.MainCanvas.Children.Add(this.Honey.Rectangle);
-            this.Honey.DrawRectangle();
+            foreach(Honey _honey in this.Honeys)
+            {
+                this.MainCanvas.Children.Add(_honey.Rectangle);
+                _honey.Display2DRepresentation();
+            }
+
             
 
             timer = new DispatcherTimer();
@@ -124,7 +140,12 @@ namespace NeuralNetwork.ViewModel
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this._neuralNetworkManager.ManageOutputsOfNetwork(this.Bees);
+            foreach(Bee bee in this.Bees)
+            {
+                SensorManager.Detection(bee, this.Honeys);
+                this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
+            }
+
         }
 
         #region Command

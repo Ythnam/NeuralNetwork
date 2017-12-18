@@ -130,6 +130,7 @@ namespace NeuralNetwork.Model
             this.Angle = 0;
             this._display = new Line();
             this.Display.Stroke = Brushes.Black;
+            this.State = 0;
         }
 
         private void CreateLine()

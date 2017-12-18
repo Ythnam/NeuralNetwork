@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace NeuralNetwork.Helper
 {
     static class IntersectionHelper
     {
         // thx : https://stackoverflow.com/questions/5514366/how-to-know-if-a-line-intersects-a-rectangle
-        public static bool LineIntersectsRect(Point p1, Point p2, Rect r)
+        public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
-            return SegmentIntersectRectangle(r.X, r.Y, r.X + r.Width, r.Y + r.Height, p1.X, p1.Y, p2.X, p2.Y);
+            return SegmentIntersectRectangle((double) r.GetValue(Canvas.LeftProperty), (double) r.GetValue(Canvas.TopProperty), (double) r.GetValue(Canvas.LeftProperty) + r.Width, (double) r.GetValue(Canvas.TopProperty) + r.Height, p1.X, p1.Y, p2.X, p2.Y);
         }
 
 

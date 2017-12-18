@@ -10,10 +10,8 @@ namespace NeuralNetwork.BLL
 {
     class NeuralNetworkManager
     {
-        public void ManageOutputsOfNetwork(List<Bee> bees)
+        public void ManageOutputsOfNetwork(Bee bee)
         {
-            foreach(Bee bee in bees)
-            {
                 Random rand = new Random();
 
                 List<double> inputs = new List<double>();
@@ -53,7 +51,6 @@ namespace NeuralNetwork.BLL
                     sensor.Display2DReprensation();
 
                 Console.WriteLine("Bee angle : " + bee.Angle + ", Bee corrd[1] = " + coord[1]);
-            }
         }
     }
 }
