@@ -15,18 +15,20 @@ namespace NeuralNetwork.BLL
         {
             foreach (Sensor sensor in _bee.Sensors)
             {
+                // Keep in cache is one thing is detected
+                int Statecache = 0;
                 foreach(Honey honey in _honeys)
                 {
                     if (IntersectionHelper.LineIntersectsRect(new Point(sensor.OriginX, sensor.OriginY), new Point(sensor.EndLineX, sensor.EndLineY), honey.Rectangle))
                     {
-                        sensor.State = 1;
-                        Console.WriteLine("++++++++++++++++++++++++++++ SENSOR = 1");
+                        Statecache = 1;
                     }
-                    else
-                    {
-                        sensor.State = 0;
-                        Console.WriteLine("++++++++++++++++++++++++++++ SENSOR = 0");
-                    }
+                }
+
+                if(Statecache == 1)
+                {
+                    sensor.State = 1;
+                    //Console.WriteLine("SENSOR = 1  ==> " + sensor.State);
                 }
             }
         }

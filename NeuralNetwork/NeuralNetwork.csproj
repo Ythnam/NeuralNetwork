@@ -80,6 +80,7 @@
     <Compile Include="BLL\SensorManager.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\IntersectionHelper.cs" />
+    <Compile Include="Helper\MovementHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />
     <Compile Include="Model\Sensor.cs" />

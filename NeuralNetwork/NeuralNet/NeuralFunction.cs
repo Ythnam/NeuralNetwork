@@ -12,5 +12,10 @@ namespace NeuralNetwork.NeuralNet
         {
             return (double)(1 / (1 + Math.Exp(-_seriesImput)));
         }
+
+        public static double Tanh(double _seriesInput)
+        {
+            return Math.Tanh(_seriesInput);
+        }
     }
 }

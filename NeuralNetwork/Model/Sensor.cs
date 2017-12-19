@@ -139,7 +139,6 @@ namespace NeuralNetwork.Model
             this._display.Y1 = this.OriginY;
             this._display.X2 = this.EndLineX;
             this._display.Y2 = this.EndLineY;
-            Console.WriteLine("+++++++++++++++++++++++++++++++++++++++ TEST QUE CA MARCHE");
         }
 
         public void Display2DReprensation()

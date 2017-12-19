@@ -132,7 +132,7 @@ namespace NeuralNetwork.ViewModel
             
 
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
             timer.Tick += timer_Tick;
             timer.Start();
             timer.IsEnabled = true;
@@ -142,8 +142,10 @@ namespace NeuralNetwork.ViewModel
         {
             foreach(Bee bee in this.Bees)
             {
+                Console.WriteLine("----------------------------------------------------------------");
                 SensorManager.Detection(bee, this.Honeys);
                 this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
+                Console.WriteLine("----------------------------------------------------------------");
             }
 
         }

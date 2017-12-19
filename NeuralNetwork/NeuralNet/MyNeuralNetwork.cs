@@ -162,7 +162,7 @@ namespace NeuralNetwork.NeuralNet
         #region Private Function
 
         /// <summary>
-        /// Multiply all input with their weights and add them. Then use the sigmoid function to have a nomber between 0 and 1. Add this to Output of Neuron
+        /// Multiply all input with their weights and add them. Then use the Tanh function to have a nomber between -1 and 1. Add this to Output of Neuron
         /// </summary>
         /// <param name="_neuron"> Neuron that you want to get his output </param>
         private static void GenerateOutput(Neuron _neuron)
@@ -173,6 +173,7 @@ namespace NeuralNetwork.NeuralNet
                 sum += _neuron.Inputs[i] * _neuron.Weights[i];
                 //Console.WriteLine("Somme numéro " + i + " = " + sum);
             }
+            //Console.WriteLine("Somme des input * weights = " + sum);
             _neuron.Outputs = NeuralFunction.Sigmoid(sum);
         }
 
