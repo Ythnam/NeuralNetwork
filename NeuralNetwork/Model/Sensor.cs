@@ -11,7 +11,7 @@ namespace NeuralNetwork.Model
 {
     public class Sensor : ObservableObject
     {
-        private static int LENGHT = 25;
+        public static int LENGHT { get; } = 50;
         private double _angleSensor; // Basic angle of each sensor
 
         #region Properties
@@ -110,9 +110,23 @@ namespace NeuralNetwork.Model
                     //if (this._angle >= (2 * Math.PI))
                     //    this._angle = this._angle - (2 * Math.PI); // Modulo 2PI
                     this._angle = this._angleSensor + value;
-                    Console.WriteLine("Angle Sensor = " + this._angle);
+                    //Console.WriteLine("Angle Sensor = " + this._angle);
                     RaisePropertyChanged();
                 //}
+            }
+        }
+
+        private double _distanceToObject;
+        public double DistanceToObject
+        {
+            get { return this._distanceToObject; }
+            set
+            {
+                if (this._distanceToObject != value)
+                {
+                    this._distanceToObject = value;
+                    RaisePropertyChanged();
+                }
             }
         }
 

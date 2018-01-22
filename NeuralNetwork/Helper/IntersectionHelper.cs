@@ -11,10 +11,13 @@ namespace NeuralNetwork.Helper
 {
     static class IntersectionHelper
     {
-        // thx : https://stackoverflow.com/questions/5514366/how-to-know-if-a-line-intersects-a-rectangle
+
+
+
+        //// thx : https://stackoverflow.com/questions/5514366/how-to-know-if-a-line-intersects-a-rectangle
         public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
-            return SegmentIntersectRectangle((double) r.GetValue(Canvas.LeftProperty), (double) r.GetValue(Canvas.TopProperty), (double) r.GetValue(Canvas.LeftProperty) + r.Width, (double) r.GetValue(Canvas.TopProperty) + r.Height, p1.X, p1.Y, p2.X, p2.Y);
+            return SegmentIntersectRectangle((double)r.GetValue(Canvas.LeftProperty), (double)r.GetValue(Canvas.TopProperty), (double)r.GetValue(Canvas.LeftProperty) + r.Width, (double)r.GetValue(Canvas.TopProperty) + r.Height, p1.X, p1.Y, p2.X, p2.Y);
         }
 
 

@@ -61,8 +61,8 @@ namespace NeuralNetwork.Model
             this._rect.SetValue(Canvas.LeftProperty, _x);
             this._rect.SetValue(Canvas.TopProperty, _y);
 
-            this._rect.Width = 15;
-            this._rect.Height = 15;
+            this._rect.Width = 10;
+            this._rect.Height = 10;
             this._rect.Stroke = Brushes.Black;
         }
 

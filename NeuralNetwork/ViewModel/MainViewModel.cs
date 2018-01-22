@@ -35,6 +35,9 @@ namespace NeuralNetwork.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         /// 
+
+        public static int NUMBER_OF_IA = 5;
+
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
 
@@ -89,65 +92,7 @@ namespace NeuralNetwork.ViewModel
         {
             this.MainCanvas = new Canvas();
             this.Bees = new List<Bee>();
-            this.Honeys = new List<Honey>();
-
-
-            Bee bee = new Bee();
-            bee.X = 100;
-            bee.Y = 100;
-
-            int[] neuronsOnEachLayer = { 2, 3, 2 }; // 2neurones first layer, 3 second layer and 2 3rd layer
-            bee.NeuralNetwork = new MyNeuralNetwork(3, neuronsOnEachLayer);
-            bee.NeuralNetwork.GenerateNeurons();
-            bee.NeuralNetwork.InitWeightsOnNetwork();
-
-
-            this.Bees.Add(bee);
-
-            Honey honey = new Honey(150, 50);
-            this.Honeys.Add(honey);
-            Honey honey1 = new Honey(50, 50);
-            this.Honeys.Add(honey1);
-            Honey honey2 = new Honey(150, 150);
-            this.Honeys.Add(honey2);
-            Honey honey3 = new Honey(50, 150);
-            this.Honeys.Add(honey3);
-
-            this._neuralNetworkManager = new NeuralNetworkManager();
-
-            foreach(Bee _bee in this.Bees)
-            {
-                foreach (Sensor sensor in _bee.Sensors)
-                {
-                    this.MainCanvas.Children.Add(sensor.Display);
-                    sensor.Display2DReprensation();
-                }
-            }
-            foreach(Honey _honey in this.Honeys)
-            {
-                this.MainCanvas.Children.Add(_honey.Rectangle);
-                _honey.Display2DRepresentation();
-            }
-
-            
-
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 250);
-            timer.Tick += timer_Tick;
-            timer.Start();
-            timer.IsEnabled = true;
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            foreach(Bee bee in this.Bees)
-            {
-                Console.WriteLine("----------------------------------------------------------------");
-                SensorManager.Detection(bee, this.Honeys);
-                this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
-                Console.WriteLine("----------------------------------------------------------------");
-            }
-
+            this.Honeys = new List<Honey>();        
         }
 
         #region Command
@@ -160,21 +105,22 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
-        private ICommand _onGenerateNeuralForTest;
-        public ICommand OnGenerateNeuralForTestCommand
+        private ICommand _onGenerateAICommand;
+        public ICommand OnGenerateAICommand
         {
             get
             {
-                return _onGenerateNeuralForTest ?? (_onGenerateNeuralForTest = new RelayCommand(() => OnGenerateNeuralForTest()));
+                return _onGenerateAICommand ?? (_onGenerateAICommand = new RelayCommand(() => OnGenerateAI()));
             }
         }
         #endregion
 
         #region Function called by command
 
-        private void OnGenerateNeuralForTest()
+        private void OnGenerateAI()
         {
-
+            this.GenerateIA();
+            this.StartTimer();
         }
 
         private void OnLoadMainWindow()
@@ -184,8 +130,71 @@ namespace NeuralNetwork.ViewModel
         #endregion
 
         #region private function
+        private void GenerateIA()
+        {
+            Random RandomCoord = new Random();
 
-    #endregion
+            for (int i = 0; i < NUMBER_OF_IA; i++)
+            {
+                Bee bee = new Bee();
+
+                bee.num = i;
+
+                bee.X = RandomCoord.NextDouble() * 525;
+                bee.Y = RandomCoord.NextDouble() * 525;
+
+                int[] neuronsOnEachLayer = { 3, 4, 4, 3 }; // 2neurones first layer, 3 second layer and 2 3rd layer
+                bee.NeuralNetwork = new MyNeuralNetwork(3, neuronsOnEachLayer, RandomCoord);
+                bee.NeuralNetwork.GenerateNeurons();
+                bee.NeuralNetwork.InitWeightsOnNetwork();
+
+                this.Bees.Add(bee);
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                this.Honeys.Add(new Honey(RandomCoord.NextDouble() * 525, RandomCoord.NextDouble() * 525));
+            }
+
+            this._neuralNetworkManager = new NeuralNetworkManager();
+
+            foreach (Bee _bee in this.Bees)
+            {
+                foreach (Sensor sensor in _bee.Sensors)
+                {
+                    this.MainCanvas.Children.Add(sensor.Display);
+                    sensor.Display2DReprensation();
+                }
+            }
+            foreach (Honey _honey in this.Honeys)
+            {
+                this.MainCanvas.Children.Add(_honey.Rectangle);
+                _honey.Display2DRepresentation();
+            }
+        }
+
+        private void StartTimer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timer.Tick += timer_Tick;
+            timer.Start();
+            timer.IsEnabled = true;
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            
+            foreach (Bee bee in this.Bees)
+            {
+                Console.WriteLine("----------------------------------------------------------------");
+                SensorManager.Detection(bee, this.Honeys);
+                this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
+                Console.WriteLine("----------------------------------------------------------------");
+            }
+
+        }
+        #endregion
 
     }
 }

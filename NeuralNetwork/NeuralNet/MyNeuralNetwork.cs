@@ -27,6 +27,15 @@ namespace NeuralNetwork.NeuralNet
             this.nomberOfNeuroneForEachLayer = _numberOfNeuronForEachLayer;
         }
 
+        public MyNeuralNetwork(int _numberOfInput, int[] _numberOfNeuronForEachLayer, Random rand)
+        {
+            this.Neurons = new List<Neuron>();
+            this.random = rand;
+            this.numberOfInputs = _numberOfInput;
+            this.layer = _numberOfNeuronForEachLayer.Length;
+            this.nomberOfNeuroneForEachLayer = _numberOfNeuronForEachLayer;
+        }
+
         /// <summary>
         /// Create all neuron on the network
         /// </summary>
@@ -66,7 +75,7 @@ namespace NeuralNetwork.NeuralNet
                     for(int i = 0; i < numberOfInputs; i++)
                     {
                         neuron.Weights.Add(GetWeight(this.random.NextDouble()));
-                    //    Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[i]);
+                        //Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[i]);
                     }
                 }
                 else

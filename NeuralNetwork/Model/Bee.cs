@@ -24,6 +24,9 @@ namespace NeuralNetwork.Model
         /// <summary>
         /// Simulate sensors
         /// </summary>
+        /// 
+        public int num { get; set; }
+
         private List<Sensor> _sensors;
         public List<Sensor> Sensors
         {
@@ -33,7 +36,7 @@ namespace NeuralNetwork.Model
         private MyNeuralNetwork _neuralNetwork;
         public MyNeuralNetwork NeuralNetwork
         {
-            get { return this._neuralNetwork; }
+            get { Console.WriteLine(this.num + " : "); return this._neuralNetwork; }
             set
             {
                 if (this._neuralNetwork != value)
@@ -94,8 +97,8 @@ namespace NeuralNetwork.Model
         {
             this._sensors = new List<Sensor>();
             Sensor _sensor1 = new Sensor(0);
-            Sensor _sensor2 = new Sensor(+Math.PI / 6);
-            Sensor _sensor3 = new Sensor(-Math.PI / 6);
+            Sensor _sensor2 = new Sensor(+Math.PI / 8);
+            Sensor _sensor3 = new Sensor(-Math.PI / 8);
 
             this.Sensors.Add(_sensor1);
             this.Sensors.Add(_sensor2);
