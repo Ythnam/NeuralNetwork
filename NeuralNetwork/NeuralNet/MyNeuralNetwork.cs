@@ -143,8 +143,8 @@ namespace NeuralNetwork.NeuralNet
             }
 
             // test loop
-            foreach (double d in outputs)
-                Console.WriteLine("Outputs of network = " + d);
+            //foreach (double d in outputs)
+            //    Console.WriteLine("Outputs of network = " + d);
 
             return outputs;
         }

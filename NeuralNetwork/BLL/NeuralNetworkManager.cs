@@ -21,12 +21,6 @@ namespace NeuralNetwork.BLL
 
             List<double> coord = bee.NeuralNetwork.ExecuteNetwork(inputs);
 
-            //if(coord[0] < 0.5)
-            //    bee.Angle = bee.Angle + (coord[0] * Math.PI / 180);
-            //else
-            //    bee.Angle = bee.Angle - (coord[0] * Math.PI / 180);
-
-
             // coord[0] = speed
             // coord[1] = left
             // coord[2] = right
@@ -34,12 +28,11 @@ namespace NeuralNetwork.BLL
             bee.X = bee.X + Math.Cos(bee.Angle) * 2 * coord[0]; // Test
             bee.Y = bee.Y + Math.Sin(bee.Angle) * 2 * coord[0];
 
+            // rotationRate > 0 ==> angle[T0] < angle[T] ==> on trigonometric we are going to the left
+            // rotationRate < 0 ==> angle[T0] < angle[T] ==> on trigonometric we are going to the right
             double rotationRate = coord[1] - coord[2];
+            bee.Angle = bee.Angle + rotationRate * Math.PI / 18;
 
-            if (rotationRate > 0)
-                bee.Angle = bee.Angle + rotationRate * Math.PI / 18;
-            else
-                bee.Angle = bee.Angle - rotationRate * Math.PI / 18;
 
 
 

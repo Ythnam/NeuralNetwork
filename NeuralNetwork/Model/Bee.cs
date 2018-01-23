@@ -36,7 +36,7 @@ namespace NeuralNetwork.Model
         private MyNeuralNetwork _neuralNetwork;
         public MyNeuralNetwork NeuralNetwork
         {
-            get { Console.WriteLine(this.num + " : "); return this._neuralNetwork; }
+            get { return this._neuralNetwork; }
             set
             {
                 if (this._neuralNetwork != value)

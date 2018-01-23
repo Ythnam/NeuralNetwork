@@ -189,11 +189,11 @@ namespace NeuralNetwork.ViewModel
             
             foreach (Bee bee in this.Bees)
             {
-                Console.WriteLine("----------------------------------------------------------------");
+                //Console.WriteLine("----------------------------------------------------------------");
                 SensorManager.Detection(bee, this.Honeys);
                 this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
                 this.StayOnPanelRange(bee);
-                Console.WriteLine("----------------------------------------------------------------");
+                //Console.WriteLine("----------------------------------------------------------------");
             }
         }
 
