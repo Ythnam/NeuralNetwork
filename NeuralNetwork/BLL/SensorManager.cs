@@ -26,7 +26,7 @@ namespace NeuralNetwork.BLL
                     }
                     else
                     {
-                        sensor.DistanceToObject = Sensor.LENGHT;
+                        sensor.DistanceToObject = Sensor.SENSOR_LENGHT;
                     }
                 }
 

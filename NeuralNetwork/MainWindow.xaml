@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="525" Width="525"
+        Title="MainWindow" Height="550" Width="550"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
@@ -17,7 +17,9 @@
     </i:Interaction.Triggers>
 
     <Canvas>
-        <ContentPresenter Content="{Binding MainCanvas}" />
+        <ContentPresenter Content="{Binding MainCanvas}"
+                          Width="{Binding MAX_WIDTH_PANEL}"
+                          Height="{Binding MAX_HEIGHT_PANEL}"/>
         <Button Width="50" Height="20"
                 Name="Genrate_Neurons"
                 Content="Generate Neurons"

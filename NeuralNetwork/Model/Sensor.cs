@@ -11,7 +11,8 @@ namespace NeuralNetwork.Model
 {
     public class Sensor : ObservableObject
     {
-        public static int LENGHT { get; } = 50;
+        private static int SIDE_LENGHT = 50;
+        public static int SENSOR_LENGHT { get; } = ((int)Math.Sqrt(2))*SIDE_LENGHT; // Lenght of the sensor ==> lenght = 71 = sqrt(2) * SIDE_LENGHT
         private double _angleSensor; // Basic angle of each sensor
 
         #region Properties
@@ -38,7 +39,7 @@ namespace NeuralNetwork.Model
                 if(this._originX != value)
                 {
                     this._originX = value;
-                    this.EndLineX = value + LENGHT * Math.Cos(Angle);
+                    this.EndLineX = value + SIDE_LENGHT * Math.Cos(Angle);
                     RaisePropertyChanged();
                 }
             }
@@ -53,7 +54,7 @@ namespace NeuralNetwork.Model
                 if (this._originY != value)
                 {
                     this._originY = value;
-                    this.EndLineY = value + LENGHT * Math.Sin(Angle);
+                    this.EndLineY = value + SIDE_LENGHT * Math.Sin(Angle);
                     RaisePropertyChanged();
                 }
             }

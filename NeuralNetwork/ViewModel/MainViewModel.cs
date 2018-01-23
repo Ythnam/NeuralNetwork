@@ -37,6 +37,8 @@ namespace NeuralNetwork.ViewModel
         /// 
 
         public static int NUMBER_OF_IA = 5;
+        public static int MAX_WIDTH_PANEL = 550;
+        public static int MAX_HEIGHT_PANEL = 550;
 
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
@@ -190,9 +192,25 @@ namespace NeuralNetwork.ViewModel
                 Console.WriteLine("----------------------------------------------------------------");
                 SensorManager.Detection(bee, this.Honeys);
                 this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
+                this.StayOnPanelRange(bee);
                 Console.WriteLine("----------------------------------------------------------------");
             }
+        }
 
+        /// <summary>
+        /// Keep AI between [0:MAX_WIDTH_PANEL] and [0:MAX_HEIGHT_PANEL]
+        /// </summary>
+        /// <param name="bee"></param>
+        private void StayOnPanelRange(Bee bee)
+        {
+            if (bee.X > MAX_WIDTH_PANEL)
+                bee.X = 0;
+            if (bee.X < 0)
+                bee.X = MAX_WIDTH_PANEL;
+            if (bee.Y > MAX_HEIGHT_PANEL)
+                bee.Y = 0;
+            if (bee.Y < 0)
+                bee.Y = MAX_HEIGHT_PANEL;
         }
         #endregion
 
