@@ -146,6 +146,7 @@ namespace NeuralNetwork.Model
             this._display = new Line();
             this.Display.Stroke = Brushes.Black;
             this.State = 0;
+            this.DistanceToObject = SENSOR_LENGHT;
         }
 
         private void CreateLine()
