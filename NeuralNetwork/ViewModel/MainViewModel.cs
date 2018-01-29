@@ -41,34 +41,12 @@ namespace NeuralNetwork.ViewModel
         private Random RandomCoord;
 
         private NeuralNetworkManager _neuralNetworkManager;
-        private DispatcherTimer timer = null;
+        private DispatcherTimer displayTimer = null;
+        private DispatcherTimer sessionTimer = null;
 
-        private List<Bee> _bees;
-        public List<Bee> Bees
-        {
-            get { return this._bees; }
-            set
-            {
-                if(this._bees != value)
-                {
-                    this._bees = value;
-                    //RaisePropertyChanged();
-                }
-            }
-        }
-        private List<Honey> _honeys;
-        public List<Honey> Honeys
-        {
-            get { return this._honeys; }
-            set
-            {
-                if (this._honeys != value)
-                {
-                    this._honeys = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public List<Bee> Bees { get; set; }
+
+        public List<Honey> Honeys { get; set; }
 
         private Canvas _mainCanvas;
         public Canvas MainCanvas
@@ -84,12 +62,6 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
-        //private BitmapImage test = BitmapHelper.Bitmap2BitmapImage(new Bitmap(NeuralNetwork.Properties.Resources.Honey));
-        //public BitmapImage Test
-        //{
-        //    get { return test; }
-        //}
-
         public MainViewModel()
         {
             this.MainCanvas = new Canvas();
@@ -98,21 +70,11 @@ namespace NeuralNetwork.ViewModel
             this.MainCanvas.Background = System.Windows.Media.Brushes.AliceBlue;
 
             this.RandomCoord = new Random();
-
             this.Bees = new List<Bee>();
             this.Honeys = new List<Honey>();        
         }
 
         #region Command
-        private ICommand _onLoadMainWindowCommand;
-        public ICommand OnLoadMainWindowCommand
-        {
-            get
-            {
-                return _onLoadMainWindowCommand ?? (_onLoadMainWindowCommand = new RelayCommand(() => OnLoadMainWindow()));
-            }
-        }
-
         private ICommand _onGenerateAICommand;
         public ICommand OnGenerateAICommand
         {
@@ -128,12 +90,7 @@ namespace NeuralNetwork.ViewModel
         private void OnGenerateAI()
         {
             this.GenerateIA();
-            this.StartTimer();
-        }
-
-        private void OnLoadMainWindow()
-        {
-           
+            this.StartDisplayTimer();
         }
         #endregion
 
@@ -165,6 +122,12 @@ namespace NeuralNetwork.ViewModel
 
             this._neuralNetworkManager = new NeuralNetworkManager();
 
+            this.DisplayCanvas();
+        }
+
+        private void DisplayCanvas()
+        {
+
             foreach (Bee _bee in this.Bees)
             {
                 foreach (Sensor sensor in _bee.Sensors)
@@ -180,16 +143,35 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
-        private void StartTimer()
+        private void StartDisplayTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_EVENT);
-            timer.Tick += timer_Tick;
-            timer.Start();
-            timer.IsEnabled = true;
+            this.displayTimer = new DispatcherTimer();
+            this.displayTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_DISPLAY_EVENT);
+            this.displayTimer.Tick += display_timer_Tick;
+            this.displayTimer.Start();
+            this.displayTimer.IsEnabled = true;
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void StartSessionTimer()
+        {
+            this.sessionTimer = new DispatcherTimer();
+            this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
+            this.sessionTimer.Tick += session_timer_Tick;
+            this.sessionTimer.Start();
+            this.sessionTimer.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Start new IA with the genetic algorithm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void session_timer_Tick(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void display_timer_Tick(object sender, EventArgs e)
         {
             
             foreach (Bee bee in this.Bees)

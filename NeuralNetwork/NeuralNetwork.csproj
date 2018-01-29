@@ -79,12 +79,12 @@
     <Compile Include="BLL\IntersectionManager.cs" />
     <Compile Include="BLL\NeuralNetworkManager.cs" />
     <Compile Include="BLL\SensorManager.cs" />
+    <Compile Include="BLL\SessionManager.cs" />
     <Compile Include="Config\ApplicationConfig.cs" />
     <Compile Include="Config\NeuralNetworkConfig.cs" />
     <Compile Include="Config\SensorConfig.cs" />
     <Compile Include="GeneticAlgorithm\TrainingSession.cs" />
-    <Compile Include="Helper\ContainHelper.cs" />
-    <Compile Include="Helper\IntersectionHelper.cs" />
+    <Compile Include="Helper\GeometricHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />
     <Compile Include="Model\Sensor.cs" />
