@@ -197,11 +197,11 @@ namespace NeuralNetwork.ViewModel
                 //Console.WriteLine("----------------------------------------------------------------");
                 SensorManager.Detection(bee, this.Honeys);
                 this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
-                this.StayOnPanelRange(bee);
+                GeometricHelper.StayOnPanelRange(bee);
 
                 foreach(Honey honey in Honeys)
                 {
-                    if (ContainHelper.Contain(honey, bee))
+                    if (GeometricHelper.Contain(honey, bee))
                     {
                         honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
                         honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
@@ -209,22 +209,6 @@ namespace NeuralNetwork.ViewModel
                 }
                 //Console.WriteLine("----------------------------------------------------------------");
             }
-        }
-
-        /// <summary>
-        /// Keep AI between [0:MAX_WIDTH_PANEL] and [0:MAX_HEIGHT_PANEL]
-        /// </summary>
-        /// <param name="bee"></param>
-        private void StayOnPanelRange(Bee bee)
-        {
-            if (bee.X > ApplicationConfig.MAX_WIDTH_PANEL)
-                bee.X = 0;
-            if (bee.X < 0)
-                bee.X = ApplicationConfig.MAX_WIDTH_PANEL;
-            if (bee.Y > ApplicationConfig.MAX_HEIGHT_PANEL)
-                bee.Y = 0;
-            if (bee.Y < 0)
-                bee.Y = ApplicationConfig.MAX_HEIGHT_PANEL;
         }
         #endregion
 

@@ -82,7 +82,7 @@
     <Compile Include="Config\ApplicationConfig.cs" />
     <Compile Include="Config\NeuralNetworkConfig.cs" />
     <Compile Include="Config\SensorConfig.cs" />
-    <Compile Include="Helper\BitmapHelper.cs" />
+    <Compile Include="GeneticAlgorithm\TrainingSession.cs" />
     <Compile Include="Helper\ContainHelper.cs" />
     <Compile Include="Helper\IntersectionHelper.cs" />
     <Compile Include="Model\Honey.cs" />

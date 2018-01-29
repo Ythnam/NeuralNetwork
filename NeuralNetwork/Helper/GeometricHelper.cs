@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeuralNetwork.Config;
+using NeuralNetwork.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +11,16 @@ using System.Windows.Shapes;
 
 namespace NeuralNetwork.Helper
 {
-    static class IntersectionHelper
+    static class GeometricHelper
     {
-
-
-
         //// thx : https://stackoverflow.com/questions/5514366/how-to-know-if-a-line-intersects-a-rectangle
+        /// <summary>
+        /// Allows to know if a line is cutting a rectangle side
+        /// </summary>
+        /// <param name="p1"> start of line</param>
+        /// <param name="p2"> end of line </param>
+        /// <param name="r"> rectangle </param>
+        /// <returns></returns>
         public static bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
             return SegmentIntersectRectangle((double)r.GetValue(Canvas.LeftProperty), (double)r.GetValue(Canvas.TopProperty), (double)r.GetValue(Canvas.LeftProperty) + r.Width, (double)r.GetValue(Canvas.TopProperty) + r.Height, p1.X, p1.Y, p2.X, p2.Y);
@@ -95,6 +101,38 @@ namespace NeuralNetwork.Helper
             }
 
             return true;
+        }
+
+
+        public static bool Contain(Honey honey, Bee bee)
+        {
+            if (bee.X > (double)honey.Rectangle.GetValue(Canvas.LeftProperty) &&
+               bee.X < ((double)honey.Rectangle.GetValue(Canvas.LeftProperty) + Honey.RECTANGLE_WIDTH))
+            {
+                if (bee.Y > (double)honey.Rectangle.GetValue(Canvas.TopProperty) &&
+                   bee.Y < ((double)honey.Rectangle.GetValue(Canvas.TopProperty) + Honey.RECTANGLE_HEIGHT))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Keep AI between [0:MAX_WIDTH_PANEL] and [0:MAX_HEIGHT_PANEL]
+        /// </summary>
+        /// <param name="bee"></param>
+        public static void StayOnPanelRange(Bee bee)
+        {
+            if (bee.X > ApplicationConfig.MAX_WIDTH_PANEL)
+                bee.X = 0;
+            if (bee.X < 0)
+                bee.X = ApplicationConfig.MAX_WIDTH_PANEL;
+            if (bee.Y > ApplicationConfig.MAX_HEIGHT_PANEL)
+                bee.Y = 0;
+            if (bee.Y < 0)
+                bee.Y = ApplicationConfig.MAX_HEIGHT_PANEL;
         }
     }
 }
