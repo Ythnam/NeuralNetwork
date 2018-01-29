@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Helper;
+﻿using NeuralNetwork.Config;
+using NeuralNetwork.Helper;
 using NeuralNetwork.Model;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,8 @@ namespace NeuralNetwork.BLL
                     }
                     else
                     {
-                        if(sensor.DistanceToObject != Sensor.SENSOR_LENGHT)
-                            sensor.DistanceToObject = Sensor.SENSOR_LENGHT; 
+                        if(sensor.DistanceToObject != SensorConfig.SENSOR_LENGHT)
+                            sensor.DistanceToObject = SensorConfig.SENSOR_LENGHT; 
                     }
                 }
 

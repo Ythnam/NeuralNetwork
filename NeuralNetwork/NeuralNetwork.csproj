@@ -79,9 +79,12 @@
     <Compile Include="BLL\IntersectionManager.cs" />
     <Compile Include="BLL\NeuralNetworkManager.cs" />
     <Compile Include="BLL\SensorManager.cs" />
+    <Compile Include="Config\ApplicationConfig.cs" />
+    <Compile Include="Config\NeuralNetworkConfig.cs" />
+    <Compile Include="Config\SensorConfig.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
+    <Compile Include="Helper\ContainHelper.cs" />
     <Compile Include="Helper\IntersectionHelper.cs" />
-    <Compile Include="Helper\MovementHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />
     <Compile Include="Model\Sensor.cs" />
@@ -120,6 +123,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -129,12 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Bee.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Honey.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

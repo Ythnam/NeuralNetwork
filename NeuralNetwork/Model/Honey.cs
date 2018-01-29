@@ -14,6 +14,8 @@ namespace NeuralNetwork.Model
         //    get { return _honeyBitmap; }
         //}
 
+        public static int RECTANGLE_WIDTH = 10;
+        public static int RECTANGLE_HEIGHT = 10;
 
         /// <summary>
         /// Usefull for the 2D representation
@@ -61,8 +63,8 @@ namespace NeuralNetwork.Model
             this._rect.SetValue(Canvas.LeftProperty, _x);
             this._rect.SetValue(Canvas.TopProperty, _y);
 
-            this._rect.Width = 10;
-            this._rect.Height = 10;
+            this._rect.Width = RECTANGLE_WIDTH;
+            this._rect.Height = RECTANGLE_HEIGHT;
             this._rect.Stroke = Brushes.Black;
         }
 

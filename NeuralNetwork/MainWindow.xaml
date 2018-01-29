@@ -17,9 +17,7 @@
     </i:Interaction.Triggers>
 
     <Canvas>
-        <ContentPresenter Content="{Binding MainCanvas}"
-                          Width="{Binding MAX_WIDTH_PANEL}"
-                          Height="{Binding MAX_HEIGHT_PANEL}"/>
+        <ContentPresenter Content="{Binding MainCanvas}"/>
         <Button Width="50" Height="20"
                 Name="Genrate_Neurons"
                 Content="Generate Neurons"

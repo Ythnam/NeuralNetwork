@@ -59,25 +59,5 @@ namespace NeuralNetwork.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Bee {
-            get {
-                object obj = ResourceManager.GetObject("Bee", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Honey {
-            get {
-                object obj = ResourceManager.GetObject("Honey", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

@@ -11,6 +11,7 @@ namespace NeuralNetwork.BLL
 {
     class IntersectionManager
     {
+        #region Intersection Rectangle Line
 
         public double IntersectionX { get; private set; }
         public double IntersectionY { get; private set; }
@@ -80,9 +81,8 @@ namespace NeuralNetwork.BLL
             this.IntersectionX = p1X + u1 * deltaX;
             this.IntersectionY = p2Y + u1 * deltaY;
 
-
             return true;
-
         }
+        #endregion
     }
 }

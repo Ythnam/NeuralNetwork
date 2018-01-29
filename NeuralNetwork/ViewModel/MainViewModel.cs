@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using NeuralNetwork.BLL;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using NeuralNetwork.Config;
 
 namespace NeuralNetwork.ViewModel
 {
@@ -36,9 +37,8 @@ namespace NeuralNetwork.ViewModel
         /// </summary>
         /// 
 
-        public static int NUMBER_OF_IA = 5;
-        public static int MAX_WIDTH_PANEL = 550;
-        public static int MAX_HEIGHT_PANEL = 550;
+
+        private Random RandomCoord;
 
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
@@ -93,6 +93,12 @@ namespace NeuralNetwork.ViewModel
         public MainViewModel()
         {
             this.MainCanvas = new Canvas();
+            this.MainCanvas.Width = ApplicationConfig.MAX_WIDTH_PANEL;
+            this.MainCanvas.Height = ApplicationConfig.MAX_HEIGHT_PANEL;
+            this.MainCanvas.Background = System.Windows.Media.Brushes.AliceBlue;
+
+            this.RandomCoord = new Random();
+
             this.Bees = new List<Bee>();
             this.Honeys = new List<Honey>();        
         }
@@ -134,28 +140,27 @@ namespace NeuralNetwork.ViewModel
         #region private function
         private void GenerateIA()
         {
-            Random RandomCoord = new Random();
-
-            for (int i = 0; i < NUMBER_OF_IA; i++)
+            for (int i = 0; i < ApplicationConfig.NUMBER_OF_IA; i++)
             {
                 Bee bee = new Bee();
 
                 bee.num = i;
 
-                bee.X = RandomCoord.NextDouble() * 525;
-                bee.Y = RandomCoord.NextDouble() * 525;
+                bee.X = RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL;
+                bee.Y = RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL;
 
-                int[] neuronsOnEachLayer = { 3, 4, 4, 3 }; // 2neurones first layer, 3 second layer and 2 3rd layer
-                bee.NeuralNetwork = new MyNeuralNetwork(3, neuronsOnEachLayer, RandomCoord);
+                bee.NeuralNetwork = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
+                                                        NeuralNetworkConfig.NEURON_ON_EACH_LAYER,
+                                                        RandomCoord);
                 bee.NeuralNetwork.GenerateNeurons();
                 bee.NeuralNetwork.InitWeightsOnNetwork();
 
                 this.Bees.Add(bee);
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < ApplicationConfig.NUMBER_OF_AREA; i++)
             {
-                this.Honeys.Add(new Honey(RandomCoord.NextDouble() * 525, RandomCoord.NextDouble() * 525));
+                this.Honeys.Add(new Honey(RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL, RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL));
             }
 
             this._neuralNetworkManager = new NeuralNetworkManager();
@@ -178,7 +183,7 @@ namespace NeuralNetwork.ViewModel
         private void StartTimer()
         {
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_EVENT);
             timer.Tick += timer_Tick;
             timer.Start();
             timer.IsEnabled = true;
@@ -193,6 +198,15 @@ namespace NeuralNetwork.ViewModel
                 SensorManager.Detection(bee, this.Honeys);
                 this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
                 this.StayOnPanelRange(bee);
+
+                foreach(Honey honey in Honeys)
+                {
+                    if (ContainHelper.Contain(honey, bee))
+                    {
+                        honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
+                        honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
+                    }
+                }
                 //Console.WriteLine("----------------------------------------------------------------");
             }
         }
@@ -203,14 +217,14 @@ namespace NeuralNetwork.ViewModel
         /// <param name="bee"></param>
         private void StayOnPanelRange(Bee bee)
         {
-            if (bee.X > MAX_WIDTH_PANEL)
+            if (bee.X > ApplicationConfig.MAX_WIDTH_PANEL)
                 bee.X = 0;
             if (bee.X < 0)
-                bee.X = MAX_WIDTH_PANEL;
-            if (bee.Y > MAX_HEIGHT_PANEL)
+                bee.X = ApplicationConfig.MAX_WIDTH_PANEL;
+            if (bee.Y > ApplicationConfig.MAX_HEIGHT_PANEL)
                 bee.Y = 0;
             if (bee.Y < 0)
-                bee.Y = MAX_HEIGHT_PANEL;
+                bee.Y = ApplicationConfig.MAX_HEIGHT_PANEL;
         }
         #endregion
 
