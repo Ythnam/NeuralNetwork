@@ -37,16 +37,10 @@ namespace NeuralNetwork.ViewModel
         /// </summary>
         /// 
 
-
-        private Random RandomCoord;
-
         private NeuralNetworkManager _neuralNetworkManager;
-        private DispatcherTimer displayTimer = null;
         private DispatcherTimer sessionTimer = null;
+        private SessionManager sessionManager;
 
-        public List<Bee> Bees { get; set; }
-
-        public List<Honey> Honeys { get; set; }
 
         private Canvas _mainCanvas;
         public Canvas MainCanvas
@@ -69,9 +63,7 @@ namespace NeuralNetwork.ViewModel
             this.MainCanvas.Height = ApplicationConfig.MAX_HEIGHT_PANEL;
             this.MainCanvas.Background = System.Windows.Media.Brushes.AliceBlue;
 
-            this.RandomCoord = new Random();
-            this.Bees = new List<Bee>();
-            this.Honeys = new List<Honey>();        
+            this.sessionManager = new SessionManager();    
         }
 
         #region Command
@@ -89,46 +81,18 @@ namespace NeuralNetwork.ViewModel
 
         private void OnGenerateAI()
         {
-            this.GenerateIA();
-            this.StartDisplayTimer();
+            this.sessionManager.GenerateIA();
+            this.DisplayCanvas();
+            this.sessionManager.StartTimer();
         }
         #endregion
 
         #region private function
-        private void GenerateIA()
-        {
-            for (int i = 0; i < ApplicationConfig.NUMBER_OF_IA; i++)
-            {
-                Bee bee = new Bee();
-
-                bee.num = i;
-
-                bee.X = RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL;
-                bee.Y = RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL;
-
-                bee.NeuralNetwork = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
-                                                        NeuralNetworkConfig.NEURON_ON_EACH_LAYER,
-                                                        RandomCoord);
-                bee.NeuralNetwork.GenerateNeurons();
-                bee.NeuralNetwork.InitWeightsOnNetwork();
-
-                this.Bees.Add(bee);
-            }
-
-            for (int i = 0; i < ApplicationConfig.NUMBER_OF_AREA; i++)
-            {
-                this.Honeys.Add(new Honey(RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL, RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL));
-            }
-
-            this._neuralNetworkManager = new NeuralNetworkManager();
-
-            this.DisplayCanvas();
-        }
 
         private void DisplayCanvas()
         {
 
-            foreach (Bee _bee in this.Bees)
+            foreach (Bee _bee in this.sessionManager.Bees)
             {
                 foreach (Sensor sensor in _bee.Sensors)
                 {
@@ -136,62 +100,22 @@ namespace NeuralNetwork.ViewModel
                     sensor.Display2DReprensation();
                 }
             }
-            foreach (Honey _honey in this.Honeys)
+            foreach (Honey _honey in this.sessionManager.Honeys)
             {
                 this.MainCanvas.Children.Add(_honey.Rectangle);
                 _honey.Display2DRepresentation();
             }
         }
 
-        private void StartDisplayTimer()
-        {
-            this.displayTimer = new DispatcherTimer();
-            this.displayTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_DISPLAY_EVENT);
-            this.displayTimer.Tick += display_timer_Tick;
-            this.displayTimer.Start();
-            this.displayTimer.IsEnabled = true;
-        }
+        //private void StartSessionTimer()
+        //{
+        //    this.sessionTimer = new DispatcherTimer();
+        //    this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
+        //    this.sessionTimer.Tick += session_timer_Tick;
+        //    this.sessionTimer.Start();
+        //    this.sessionTimer.IsEnabled = true;
+        //}
 
-        private void StartSessionTimer()
-        {
-            this.sessionTimer = new DispatcherTimer();
-            this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
-            this.sessionTimer.Tick += session_timer_Tick;
-            this.sessionTimer.Start();
-            this.sessionTimer.IsEnabled = true;
-        }
-
-        /// <summary>
-        /// Start new IA with the genetic algorithm
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void session_timer_Tick(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void display_timer_Tick(object sender, EventArgs e)
-        {
-            
-            foreach (Bee bee in this.Bees)
-            {
-                //Console.WriteLine("----------------------------------------------------------------");
-                SensorManager.Detection(bee, this.Honeys);
-                this._neuralNetworkManager.ManageOutputsOfNetwork(bee);
-                GeometricHelper.StayOnPanelRange(bee);
-
-                foreach(Honey honey in Honeys)
-                {
-                    if (GeometricHelper.Contain(honey, bee))
-                    {
-                        honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
-                        honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
-                    }
-                }
-                //Console.WriteLine("----------------------------------------------------------------");
-            }
-        }
         #endregion
 
     }

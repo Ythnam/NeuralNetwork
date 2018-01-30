@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace NeuralNetwork.BLL
@@ -18,37 +19,18 @@ namespace NeuralNetwork.BLL
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
 
-        private List<Bee> _bees;
-        public List<Bee> Bees
-        {
-            get { return this._bees; }
-            set
-            {
-                if (this._bees != value)
-                {
-                    this._bees = value;
-                }
-            }
-        }
-        private List<Honey> _honeys;
-        public List<Honey> Honeys
-        {
-            get { return this._honeys; }
-            set
-            {
-                if (this._honeys != value)
-                {
-                    this._honeys = value;
-                }
-            }
-        }
+        public List<Bee> Bees { get; set; }
+
+        public List<Honey> Honeys { get; set; }
 
         public SessionManager()
         {
-            this.GenerateIA();
+            this.Bees = new List<Bee>();
+            this.Honeys = new List<Honey>();
+            this.RandomCoord = new Random();
         }
 
-        private void GenerateIA()
+        public void GenerateIA()
         {
             for (int i = 0; i < ApplicationConfig.NUMBER_OF_IA; i++)
             {
@@ -74,9 +56,11 @@ namespace NeuralNetwork.BLL
             }
 
             this._neuralNetworkManager = new NeuralNetworkManager();
+
+
         }
 
-        private void StartTimer()
+        public void StartTimer()
         {
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_DISPLAY_EVENT);
@@ -98,8 +82,8 @@ namespace NeuralNetwork.BLL
                 {
                     if (GeometricHelper.Contain(honey, bee))
                     {
-                        //honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
-                        //honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
+                        honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
+                        honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
                     }
                 }
             }
