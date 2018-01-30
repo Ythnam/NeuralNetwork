@@ -83,7 +83,6 @@
     <Compile Include="Config\ApplicationConfig.cs" />
     <Compile Include="Config\NeuralNetworkConfig.cs" />
     <Compile Include="Config\SensorConfig.cs" />
-    <Compile Include="GeneticAlgorithm\TrainingSession.cs" />
     <Compile Include="Helper\GeometricHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />
@@ -133,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GeneticAlgorithm\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -38,8 +38,10 @@ namespace NeuralNetwork.BLL
 
                 bee.num = i;
 
-                bee.X = RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL;
-                bee.Y = RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL;
+                //bee.X = RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL;
+                //bee.Y = RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL;
+                bee.X = 275;
+                bee.Y = 275;
 
                 bee.NeuralNetwork = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
                                                         NeuralNetworkConfig.NEURON_ON_EACH_LAYER,
@@ -56,17 +58,21 @@ namespace NeuralNetwork.BLL
             }
 
             this._neuralNetworkManager = new NeuralNetworkManager();
-
-
         }
 
+        #region Timer
         public void StartTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_DISPLAY_EVENT);
-            timer.Tick += timer_Tick;
-            timer.Start();
-            timer.IsEnabled = true;
+            this.timer = new DispatcherTimer();
+            this.timer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_DISPLAY_EVENT);
+            this.timer.Tick += timer_Tick;
+            this.timer.Start();
+            this.timer.IsEnabled = true;
+        }
+
+        public void StopTimer()
+        {
+            this.timer.Tick -= timer_Tick;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -88,5 +94,6 @@ namespace NeuralNetwork.BLL
                 }
             }
         }
+        #endregion
     }
 }

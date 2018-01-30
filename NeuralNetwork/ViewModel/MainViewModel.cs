@@ -36,8 +36,6 @@ namespace NeuralNetwork.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         /// 
-
-        private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer sessionTimer = null;
         private SessionManager sessionManager;
 
@@ -75,6 +73,15 @@ namespace NeuralNetwork.ViewModel
                 return _onGenerateAICommand ?? (_onGenerateAICommand = new RelayCommand(() => OnGenerateAI()));
             }
         }
+
+        private ICommand _onStopCommand;
+        public ICommand OnStopCommand
+        {
+            get
+            {
+                return _onStopCommand ?? (_onStopCommand = new RelayCommand(() => OnStop()));
+            }
+        }
         #endregion
 
         #region Function called by command
@@ -84,6 +91,11 @@ namespace NeuralNetwork.ViewModel
             this.sessionManager.GenerateIA();
             this.DisplayCanvas();
             this.sessionManager.StartTimer();
+        }
+
+        private void OnStop()
+        {
+            this.sessionManager.StopTimer();
         }
         #endregion
 
@@ -107,14 +119,19 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
-        //private void StartSessionTimer()
-        //{
-        //    this.sessionTimer = new DispatcherTimer();
-        //    this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
-        //    this.sessionTimer.Tick += session_timer_Tick;
-        //    this.sessionTimer.Start();
-        //    this.sessionTimer.IsEnabled = true;
-        //}
+        private void StartSessionTimer()
+        {
+            this.sessionTimer = new DispatcherTimer();
+            this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
+            this.sessionTimer.Tick += session_timer_Tick;
+            this.sessionTimer.Start();
+            this.sessionTimer.IsEnabled = true;
+        }
+
+        private void session_timer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
