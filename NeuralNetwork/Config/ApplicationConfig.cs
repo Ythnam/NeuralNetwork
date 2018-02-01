@@ -13,6 +13,6 @@ namespace NeuralNetwork.Config
         public static int MAX_HEIGHT_PANEL = 550;
         public static int NUMBER_OF_AREA = 50;
         public static int TIME_DISPLAY_EVENT = 10;
-        public static int TIME_SESSION_EVENT = 60000;
+        public static int TIME_SESSION_EVENT = 30000;
     }
 }

@@ -26,6 +26,7 @@ namespace NeuralNetwork.Model
         /// </summary>
         /// 
         public int num { get; set; }
+        public int Fitness { get; set; }
 
         private List<Sensor> _sensors;
         public List<Sensor> Sensors
@@ -104,6 +105,8 @@ namespace NeuralNetwork.Model
             this.Sensors.Add(_sensor2);
             this.Sensors.Add(_sensor3);
             this.Angle = 0;
+
+            this.Fitness = 0;
         }
     }
 }

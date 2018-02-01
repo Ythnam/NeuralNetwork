@@ -38,6 +38,7 @@ namespace NeuralNetwork.ViewModel
         /// 
         private DispatcherTimer sessionTimer = null;
         private SessionManager sessionManager;
+        private GeneticManager geneticManager;
 
 
         private Canvas _mainCanvas;
@@ -61,7 +62,8 @@ namespace NeuralNetwork.ViewModel
             this.MainCanvas.Height = ApplicationConfig.MAX_HEIGHT_PANEL;
             this.MainCanvas.Background = System.Windows.Media.Brushes.AliceBlue;
 
-            this.sessionManager = new SessionManager();    
+            this.sessionManager = new SessionManager();
+            this.geneticManager = new GeneticManager();
         }
 
         #region Command
@@ -91,6 +93,8 @@ namespace NeuralNetwork.ViewModel
             this.sessionManager.GenerateIA();
             this.DisplayCanvas();
             this.sessionManager.StartTimer();
+
+            this.StartSessionTimer();
         }
 
         private void OnStop()
@@ -130,7 +134,10 @@ namespace NeuralNetwork.ViewModel
 
         private void session_timer_Tick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            this.sessionManager.StopTimer();
+            this.geneticManager.GetBestAIs(this.sessionManager.Bees);
+            //Get 2 meilleurs fitness
+            //Genère la nouvelle génération
         }
 
         #endregion

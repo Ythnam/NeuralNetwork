@@ -90,6 +90,7 @@ namespace NeuralNetwork.BLL
                     {
                         honey.Rectangle.SetValue(Canvas.LeftProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
                         honey.Rectangle.SetValue(Canvas.TopProperty, this.RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
+                        bee.Fitness = bee.Fitness + 1;
                     }
                 }
             }
