@@ -12,13 +12,16 @@ namespace NeuralNetwork.BLL
     {
         public MyNeuralNetwork BestGenome1 { get; set; }
         public MyNeuralNetwork BestGenome2 { get; set; }
+        public List<MyNeuralNetwork> NewGenome { get; set; } // list of 8 genome which containt the 2 bests before, 6 child of those 2 best with sometimes a mutation
 
         public GeneticManager()
         {
 
         }
 
-        public void GetBestAIs(List<Bee> bees)
+
+        // Function which get 2 best Genome. I have to update it to be better
+        public void GetBestGenomes(List<Bee> bees)
         {
             Bee best = new Bee();
             Bee second = new Bee();
