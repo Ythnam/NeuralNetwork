@@ -135,7 +135,7 @@ namespace NeuralNetwork.ViewModel
         private void session_timer_Tick(object sender, EventArgs e)
         {
             this.sessionManager.StopTimer();
-            this.geneticManager.GetBestGenomes(this.sessionManager.Bees);
+            this.geneticManager.GenerateNewGenome(this.sessionManager.Bees);
             //Get 2 meilleurs fitness
             //Genère la nouvelle génération
         }

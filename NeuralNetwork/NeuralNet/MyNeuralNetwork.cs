@@ -8,7 +8,7 @@ namespace NeuralNetwork.NeuralNet
 {
     public class MyNeuralNetwork
     {
-        public List<Neuron> Neurons { get; }
+        public List<Neuron> Neurons { get; set; }
         public List<double> NetworkInputs { get; set; }
 
         private int[] nomberOfNeuroneForEachLayer;

@@ -20,9 +20,15 @@ namespace NeuralNetwork.BLL
 
         }
 
+        public void GenerateNewGenome(List<Bee> bees)
+        {
+            CreateBestGenomes(bees);
+            CrossingGenomes();
+
+        }
 
         // Function which get 2 best Genome. I have to update it to be better
-        public void GetBestGenomes(List<Bee> bees)
+        private void CreateBestGenomes(List<Bee> bees)
         {
             Bee best = new Bee();
             Bee second = new Bee();
@@ -50,6 +56,9 @@ namespace NeuralNetwork.BLL
 
             this.BestGenome1 = best.NeuralNetwork;
             this.BestGenome2 = second.NeuralNetwork;
+
+            this.NewGenome.Add(this.BestGenome1);
+            this.NewGenome.Add(this.BestGenome2);
         }
 
         private void CrossingGenomes()
@@ -62,7 +71,8 @@ namespace NeuralNetwork.BLL
 
             foreach (Neuron neuron in BestGenome1.Neurons)
             {
-                if (neuron.NeuralPosition.Item1 <= splitLayerForCrossing)
+                // -1 because we are on List which go from 0 to N-1
+                if (neuron.NeuralPosition.Item1 <= (splitLayerForCrossing - 1))
                     bestNeurons1Left.Add(neuron);
                 else
                     bestNeurons1Right.Add(neuron);
@@ -79,8 +89,12 @@ namespace NeuralNetwork.BLL
                     bestNeurons2Right.Add(neuron);
             }
 
+            // Add to the left of one network the right of the other
             bestNeurons1Left.AddRange(bestNeurons2Right);
             bestNeurons2Left.AddRange(bestNeurons1Right);
+
+            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeurons1Left });
+            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeurons2Left });
         }
 
         /// <summary>
