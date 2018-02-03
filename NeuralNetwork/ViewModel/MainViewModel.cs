@@ -136,8 +136,16 @@ namespace NeuralNetwork.ViewModel
         {
             this.sessionManager.StopTimer();
             this.geneticManager.GenerateNewGenome(this.sessionManager.Bees);
-            //Get 2 meilleurs fitness
-            //Genère la nouvelle génération
+
+            this.sessionManager.ReGenerateIA(this.geneticManager.NewGenome);
+
+            foreach (Bee bee in this.sessionManager.Bees)
+                bee.Fitness = 0;
+
+            this.geneticManager.ResetData();
+
+            this.sessionManager.StartTimer();
+
         }
 
         #endregion

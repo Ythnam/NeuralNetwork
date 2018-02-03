@@ -32,16 +32,14 @@ namespace NeuralNetwork.BLL
 
         public void GenerateIA()
         {
-            for (int i = 0; i < ApplicationConfig.NUMBER_OF_IA; i++)
+            for (int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
             {
                 Bee bee = new Bee();
 
                 bee.num = i;
 
-                //bee.X = RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL;
-                //bee.Y = RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL;
-                bee.X = 275;
-                bee.Y = 275;
+                bee.X = ApplicationConfig.AI_X;
+                bee.Y = ApplicationConfig.AI_Y;
 
                 bee.NeuralNetwork = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
                                                         NeuralNetworkConfig.NEURON_ON_EACH_LAYER,
@@ -58,6 +56,16 @@ namespace NeuralNetwork.BLL
             }
 
             this._neuralNetworkManager = new NeuralNetworkManager();
+        }
+
+        public void ReGenerateIA(List<MyNeuralNetwork> neuralNetwork)
+        {
+            for (int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
+            {
+                this.Bees[i].NeuralNetwork = neuralNetwork[i];
+                this.Bees[i].X = ApplicationConfig.AI_X;
+                this.Bees[i].Y = ApplicationConfig.AI_Y;
+            }
         }
 
         #region Timer

@@ -1,4 +1,5 @@
 ﻿using NeuralNetwork.Config;
+using NeuralNetwork.Helper;
 using NeuralNetwork.Model;
 using NeuralNetwork.NeuralNet;
 using System;
@@ -11,20 +12,34 @@ namespace NeuralNetwork.BLL
 {
     class GeneticManager
     {
+        private Random rand;
+
         public MyNeuralNetwork BestGenome1 { get; set; }
         public MyNeuralNetwork BestGenome2 { get; set; }
         public List<MyNeuralNetwork> NewGenome { get; set; } // list of 8 genome which containt the 2 bests before, 6 child of those 2 best with sometimes a mutation
 
         public GeneticManager()
         {
-
+            this.NewGenome = new List<MyNeuralNetwork>();
+            this.rand = new Random();
         }
 
         public void GenerateNewGenome(List<Bee> bees)
         {
-            CreateBestGenomes(bees);
-            CrossingGenomes();
+            this.CreateBestGenomes(bees);
+            this.LeftRightCrossingGenomes();
+            this.OddEvenCrossingGenomes();
+            this.GenerateLastGenomes();
+            this.Mutation();
+        }
 
+        public void ResetData()
+        {
+            this.BestGenome1 = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
+                                                   NeuralNetworkConfig.NEURON_ON_EACH_LAYER);
+            this.BestGenome2 = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
+                                                   NeuralNetworkConfig.NEURON_ON_EACH_LAYER);
+            this.NewGenome = new List<MyNeuralNetwork>();
         }
 
         // Function which get 2 best Genome. I have to update it to be better
@@ -32,7 +47,6 @@ namespace NeuralNetwork.BLL
         {
             Bee best = new Bee();
             Bee second = new Bee();
-
 
             foreach (Bee bee in bees)
             {
@@ -44,11 +58,8 @@ namespace NeuralNetwork.BLL
                         best = bee;
                     }
                     else
-                    {
                         second = bee;
-                    }
                 }
-                Console.WriteLine("Fitness " + bee.num + " : " + bee.Fitness);
             }
 
             Console.WriteLine("Best Bee Fitness : " + best.Fitness);
@@ -61,7 +72,7 @@ namespace NeuralNetwork.BLL
             this.NewGenome.Add(this.BestGenome2);
         }
 
-        private void CrossingGenomes()
+        private void LeftRightCrossingGenomes()
         {
             int NetworkLayerNbr = NeuralNetworkConfig.NEURON_ON_EACH_LAYER.Length;
             int splitLayerForCrossing = NetworkLayerNbr / 2;
@@ -83,7 +94,7 @@ namespace NeuralNetwork.BLL
 
             foreach (Neuron neuron in BestGenome2.Neurons)
             {
-                if (neuron.NeuralPosition.Item1 <= splitLayerForCrossing)
+                if (neuron.NeuralPosition.Item1 <= splitLayerForCrossing - 1)
                     bestNeurons2Left.Add(neuron);
                 else
                     bestNeurons2Right.Add(neuron);
@@ -97,50 +108,70 @@ namespace NeuralNetwork.BLL
             this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeurons2Left });
         }
 
-        /// <summary>
-        /// Mutate neural network weights
-        /// </summary>
-        //public void MutateGenome()
-        //{
-        //    for (int i = 0; i < weights.Length; i++)
-        //    {
-        //        for (int j = 0; j < weights[i].Length; j++)
-        //        {
-        //            for (int k = 0; k < weights[i][j].Length; k++)
-        //            {
-        //                float weight = weights[i][j][k];
+        private void OddEvenCrossingGenomes()
+        {
+            List<Neuron> even = new List<Neuron>();
+            List<Neuron> odd = new List<Neuron>();
 
-        //                //mutate weight value 
-        //                float randomNumber = UnityEngine.Random.Range(0f, 100f);
+            for(int i = 0; i < NeuralHelper.NbrOfNeurons(); i++)
+            {
+                if(this.BestGenome1.Neurons.ElementAt(i).NeuralPosition.Item1 % 2 == 0)
+                {
+                    even.Add(this.BestGenome1.Neurons.ElementAt(i));
+                    odd.Add(this.BestGenome2.Neurons.ElementAt(i));
+                }
+                else
+                {
+                    even.Add(this.BestGenome2.Neurons.ElementAt(i));
+                    odd.Add(this.BestGenome1.Neurons.ElementAt(i));
+                }
+            }
 
-        //                if (randomNumber <= 2f)
-        //                { //if 1
-        //                  //flip sign of weight
-        //                    weight *= -1f;
-        //                }
-        //                else if (randomNumber <= 4f)
-        //                { //if 2
-        //                  //pick random weight between -1 and 1
-        //                    weight = UnityEngine.Random.Range(-0.5f, 0.5f);
-        //                }
-        //                else if (randomNumber <= 6f)
-        //                { //if 3
-        //                  //randomly increase by 0% to 100%
-        //                    float factor = UnityEngine.Random.Range(0f, 1f) + 1f;
-        //                    weight *= factor;
-        //                }
-        //                else if (randomNumber <= 8f)
-        //                { //if 4
-        //                  //randomly decrease by 0% to 100%
-        //                    float factor = UnityEngine.Random.Range(0f, 1f);
-        //                    weight *= factor;
-        //                }
+            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = even });
+            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = odd });
 
-        //                weights[i][j][k] = weight;
-        //            }
-        //        }
-        //    }
-        //}
+        }
 
+        private void GenerateLastGenomes()
+        {
+            while(NewGenome.Count < ApplicationConfig.NUMBER_OF_AI)
+            {
+                MyNeuralNetwork neuralNetwork = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
+                                                                    NeuralNetworkConfig.NEURON_ON_EACH_LAYER);
+                neuralNetwork.GenerateNeurons();
+                neuralNetwork.InitWeightsOnNetwork();
+
+                this.NewGenome.Add(neuralNetwork);
+            }
+
+            Console.WriteLine("test fin iteration ==> " + NewGenome.Count);
+
+        }
+
+        private void Mutation()
+        {
+            foreach(MyNeuralNetwork mnn in this.NewGenome)
+            {
+                foreach(Neuron neur in mnn.Neurons)
+                {
+                    for(int i = 0; i < neur.Weights.Count; i++)
+                    {
+                        if (this.rand.NextDouble() >= GeneticConfig.MUTATION_PERCENT)
+                            neur.Weights[i] = this.rand.NextDouble();
+                    }
+                }
+            }
+        }
+
+        private void Debug(List<Neuron> ne)
+        {
+            string debug = "";
+            foreach (Neuron neur in ne)
+            {
+                foreach (double wei in neur.Weights)
+                    debug = debug + ";" + wei;
+            }
+            Console.WriteLine(debug);
+        }
     }
 }
