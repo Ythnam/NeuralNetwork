@@ -107,18 +107,19 @@ namespace NeuralNetwork.Helper
         public static bool Contain(Honey honey, Bee bee)
         {
             if (bee.X > (double)honey.Rectangle.GetValue(Canvas.LeftProperty) &&
-               bee.X < ((double)honey.Rectangle.GetValue(Canvas.LeftProperty) + Honey.RECTANGLE_WIDTH))
-            {
-                if (bee.Y > (double)honey.Rectangle.GetValue(Canvas.TopProperty) &&
-                   bee.Y < ((double)honey.Rectangle.GetValue(Canvas.TopProperty) + Honey.RECTANGLE_HEIGHT))
-                {
+               bee.X < ((double)honey.Rectangle.GetValue(Canvas.LeftProperty) + ApplicationConfig.RECTANGLE_WIDTH) &&
+               bee.Y > (double)honey.Rectangle.GetValue(Canvas.TopProperty) &&
+               bee.Y < ((double)honey.Rectangle.GetValue(Canvas.TopProperty) + ApplicationConfig.RECTANGLE_HEIGHT))
                     return true;
-                }
-            }
             return false;
         }
 
-        public static void CompareDistance(Sensor sensor,double distance)
+        /// <summary>
+        /// This function allows to choose the closest area as input. It is usefull if 2 areas are detected with the same sensor
+        /// </summary>
+        /// <param name="sensor"></param>
+        /// <param name="distance"></param>
+        public static void GetClosestDistance(Sensor sensor,double distance)
         {
             //Console.WriteLine("DistanceToObject = " + sensor.DistanceToObject + ", " + "distance = " + distance);
             if (sensor.DistanceToObject > distance)

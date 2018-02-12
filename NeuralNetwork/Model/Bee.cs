@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using NeuralNetwork.Config;
 using NeuralNetwork.Helper;
 using NeuralNetwork.NeuralNet;
 using System;
@@ -52,7 +53,12 @@ namespace NeuralNetwork.Model
                 {
                     this._x = value;
                     foreach (Sensor sensor in Sensors)
-                        sensor.OriginX = value;
+                    {
+                        //sensor.OriginX = value;
+                        sensor.Display.X1 = value;
+                        sensor.Display.X2 = value + SensorConfig.SENSOR_LENGHT * Math.Cos(sensor.Angle);
+                    }
+
                     RaisePropertyChanged();
                 }
             }
@@ -67,7 +73,12 @@ namespace NeuralNetwork.Model
                 {
                     this._y = value;
                     foreach (Sensor sensor in Sensors)
-                        sensor.OriginY = value;
+                    {
+                        //sensor.OriginY = value;
+                        sensor.Display.Y1 = value;
+                        sensor.Display.Y2 = value + SensorConfig.SENSOR_LENGHT * Math.Sin(sensor.Angle);
+                    }
+
                     RaisePropertyChanged();
                 }
             }

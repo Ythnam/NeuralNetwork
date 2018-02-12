@@ -22,9 +22,9 @@ namespace NeuralNetwork.BLL
                 sensor.State = 0;
                 foreach (Honey honey in _honeys)
                 {
-                    if (intersectionManager.LineIntersectsRect(new Point(sensor.OriginX, sensor.OriginY), new Point(sensor.EndLineX, sensor.EndLineY), honey.Rectangle))
+                    if (intersectionManager.LineIntersectsRect(sensor.Display, honey.Rectangle))
                     {
-                        GeometricHelper.CompareDistance(sensor, CalculateDistance(new Point(sensor.OriginX, sensor.OriginY), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY)));
+                        GeometricHelper.GetClosestDistance(sensor, CalculateDistance(new Point(sensor.Display.X1, sensor.Display.Y1), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY)));
                         sensor.State = 1; // ==> Avec un événement ça aurait été plus propre
                         //Console.WriteLine("Distance sensor object = " + sensor.DistanceToObject);
                     }
@@ -45,6 +45,7 @@ namespace NeuralNetwork.BLL
 
         private static double CalculateDistance(Point _origin, Point _intersection)
         {
+            //Console.WriteLine("Distance calculated = " + Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X, 2) + Math.Pow(_origin.Y - _intersection.Y, 2))));
             return Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X , 2) + Math.Pow(_origin.Y - _intersection.Y , 2)));
         }
     }

@@ -20,8 +20,26 @@ namespace NeuralNetwork.BLL
 
         public bool LineIntersectsRect(Point p1, Point p2, Rectangle r)
         {
-            return SegmentIntersectRectangle((double)r.GetValue(Canvas.LeftProperty), (double)r.GetValue(Canvas.TopProperty), (double)r.GetValue(Canvas.LeftProperty) + r.Width, (double)r.GetValue(Canvas.TopProperty) + r.Height, p1.X, p1.Y, p2.X, p2.Y);
+            return SegmentIntersectRectangle((double)r.GetValue(Canvas.LeftProperty), 
+                                             (double)r.GetValue(Canvas.TopProperty), 
+                                             (double)r.GetValue(Canvas.LeftProperty) + r.Width, 
+                                             (double)r.GetValue(Canvas.TopProperty) + r.Height, 
+                                             p1.X,
+                                             p1.Y, 
+                                             p2.X,
+                                             p2.Y);
+        }
 
+        public bool LineIntersectsRect(Line line, Rectangle r)
+        {
+            return SegmentIntersectRectangle((double)r.GetValue(Canvas.LeftProperty),
+                                             (double)r.GetValue(Canvas.TopProperty),
+                                             (double)r.GetValue(Canvas.LeftProperty) + r.Width,
+                                             (double)r.GetValue(Canvas.TopProperty) + r.Height,
+                                             line.X1,
+                                             line.Y1,
+                                             line.X2,
+                                             line.Y2);
         }
 
         private bool SegmentIntersectRectangle(double rectangleMinX,

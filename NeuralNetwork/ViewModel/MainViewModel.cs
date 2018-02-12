@@ -116,13 +116,11 @@ namespace NeuralNetwork.ViewModel
                 foreach (Sensor sensor in _bee.Sensors)
                 {
                     this.MainCanvas.Children.Add(sensor.Display);
-                    sensor.Display2DReprensation();
                 }
             }
             foreach (Honey _honey in this.sessionManager.Honeys)
             {
                 this.MainCanvas.Children.Add(_honey.Rectangle);
-                _honey.Display2DRepresentation();
             }
         }
 
