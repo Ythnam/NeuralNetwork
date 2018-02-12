@@ -8,6 +8,6 @@ namespace NeuralNetwork.Config
 {
     public static class GeneticConfig
     {
-        public static double MUTATION_PERCENT = 0.98;
+        public static double MUTATION_PERCENT = 0.99;
     }
 }

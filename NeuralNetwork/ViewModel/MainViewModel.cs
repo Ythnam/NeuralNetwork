@@ -39,6 +39,7 @@ namespace NeuralNetwork.ViewModel
         private DispatcherTimer sessionTimer = null;
         private SessionManager sessionManager;
         private GeneticManager geneticManager;
+        private Random randomCoord;
 
 
         private Canvas _mainCanvas;
@@ -61,6 +62,8 @@ namespace NeuralNetwork.ViewModel
             this.MainCanvas.Width = ApplicationConfig.MAX_WIDTH_PANEL;
             this.MainCanvas.Height = ApplicationConfig.MAX_HEIGHT_PANEL;
             this.MainCanvas.Background = System.Windows.Media.Brushes.AliceBlue;
+
+            this.randomCoord = new Random();
 
             this.sessionManager = new SessionManager();
             this.geneticManager = new GeneticManager();
@@ -137,10 +140,24 @@ namespace NeuralNetwork.ViewModel
             this.sessionManager.StopTimer();
             this.geneticManager.GenerateNewGenome(this.sessionManager.Bees);
 
+            for(int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
+            {
+                if(i > 1) // i Don't mutate the 2 best fitness
+                {
+                    this.geneticManager.Mutate(this.geneticManager.NewGenome[i]);
+                }
+            }
+
             this.sessionManager.ReGenerateIA(this.geneticManager.NewGenome);
 
             foreach (Bee bee in this.sessionManager.Bees)
                 bee.Fitness = 0;
+
+            foreach (Honey honey in this.sessionManager.Honeys)
+            {
+                honey.Rectangle.SetValue(Canvas.LeftProperty, this.randomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL);
+                honey.Rectangle.SetValue(Canvas.TopProperty, this.randomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL);
+            }
 
             this.geneticManager.ResetData();
 

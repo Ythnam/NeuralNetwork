@@ -26,6 +26,7 @@ namespace NeuralNetwork.Model
         /// </summary>
         /// 
         public int num { get; set; }
+
         public int Fitness { get; set; }
 
         private List<Sensor> _sensors;

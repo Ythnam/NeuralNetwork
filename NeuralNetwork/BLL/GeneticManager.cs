@@ -12,7 +12,7 @@ namespace NeuralNetwork.BLL
 {
     class GeneticManager
     {
-        private Random rand;
+        private readonly Random rand;
 
         public MyNeuralNetwork BestGenome1 { get; set; }
         public MyNeuralNetwork BestGenome2 { get; set; }
@@ -29,8 +29,24 @@ namespace NeuralNetwork.BLL
             this.CreateBestGenomes(bees);
             this.LeftRightCrossingGenomes();
             this.OddEvenCrossingGenomes();
-            this.GenerateLastGenomes();
-            this.Mutation();
+            //this.GenerateLastGenomes();
+            //this.Mutation();
+        }
+
+        public void Mutate(MyNeuralNetwork mnn)
+        {
+            foreach (Neuron neur in mnn.Neurons)
+            {
+                for (int i = 0; i < neur.Weights.Count; i++)
+                {
+                    if (this.rand.NextDouble() >= GeneticConfig.MUTATION_PERCENT)
+                    {
+                        double cache = neur.Weights[i];
+                        neur.Weights[i] = this.GetWeight(this.rand.NextDouble());
+                        Console.WriteLine("Mution on neurone (" + neur.NeuralPosition.Item1 + "," + neur.NeuralPosition.Item2 + ") , Weight : " + i + " : " + cache + " ===> " + neur.Weights[i]);
+                    }
+                }
+            }
         }
 
         public void ResetData()
@@ -42,6 +58,7 @@ namespace NeuralNetwork.BLL
             this.NewGenome = new List<MyNeuralNetwork>();
         }
 
+        #region private
         // Function which get 2 best Genome. I have to update it to be better
         private void CreateBestGenomes(List<Bee> bees)
         {
@@ -152,15 +169,15 @@ namespace NeuralNetwork.BLL
         {
             foreach(MyNeuralNetwork mnn in this.NewGenome)
             {
-                foreach(Neuron neur in mnn.Neurons)
-                {
-                    for(int i = 0; i < neur.Weights.Count; i++)
-                    {
-                        if (this.rand.NextDouble() >= GeneticConfig.MUTATION_PERCENT)
-                            neur.Weights[i] = this.rand.NextDouble();
-                    }
-                }
+                Mutate(mnn);
             }
+        }
+
+        private double GetWeight(double _weight)
+        {
+            if (this.rand.NextDouble() <= 0.5)
+                _weight = -_weight;
+            return _weight;
         }
 
         private void Debug(List<Neuron> ne)
@@ -173,5 +190,6 @@ namespace NeuralNetwork.BLL
             }
             Console.WriteLine(debug);
         }
+        #endregion
     }
 }
