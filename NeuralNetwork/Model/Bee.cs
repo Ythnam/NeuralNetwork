@@ -29,11 +29,7 @@ namespace NeuralNetwork.Model
 
         public int Fitness { get; set; }
 
-        private List<Sensor> _sensors;
-        public List<Sensor> Sensors
-        {
-            get { return this._sensors; }
-        }
+        public List<Sensor> Sensors { get; }
 
         private MyNeuralNetwork _neuralNetwork;
         public MyNeuralNetwork NeuralNetwork
@@ -97,7 +93,7 @@ namespace NeuralNetwork.Model
 
         public Bee()
         {
-            this._sensors = new List<Sensor>();
+            this.Sensors = new List<Sensor>();
             Sensor _sensor1 = new Sensor(0);
             Sensor _sensor2 = new Sensor(+Math.PI / 8);
             Sensor _sensor3 = new Sensor(-Math.PI / 8);

@@ -24,9 +24,10 @@ namespace NeuralNetwork.BLL
                 {
                     if (intersectionManager.LineIntersectsRect(new Point(sensor.OriginX, sensor.OriginY), new Point(sensor.EndLineX, sensor.EndLineY), honey.Rectangle))
                     {
-                        sensor.DistanceToObject = CalculateDistance(new Point(sensor.OriginX, sensor.OriginY), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY));
+                        GeometricHelper.CompareDistance(sensor, CalculateDistance(new Point(sensor.OriginX, sensor.OriginY), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY)));
+                        //sensor.DistanceToObject = CalculateDistance(new Point(sensor.OriginX, sensor.OriginY), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY));
                         sensor.State = 1;
-                        //Console.WriteLine("Distance sensor object = " + sensor.DistanceToObject);
+                        Console.WriteLine("Distance sensor object = " + sensor.DistanceToObject);
                     }
                     else
                     {

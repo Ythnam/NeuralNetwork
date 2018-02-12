@@ -118,6 +118,13 @@ namespace NeuralNetwork.Helper
             return false;
         }
 
+        public static void CompareDistance(Sensor sensor,double distance)
+        {
+            Console.WriteLine("DistanceToObject = " + sensor.DistanceToObject + ", " + "distance = " + distance);
+            if (sensor.DistanceToObject > distance)
+                sensor.DistanceToObject = distance;
+        }
+
 
         /// <summary>
         /// Keep AI between [0:MAX_WIDTH_PANEL] and [0:MAX_HEIGHT_PANEL]
