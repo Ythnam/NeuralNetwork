@@ -36,7 +36,7 @@ namespace NeuralNetwork.BLL
             {
                 Bee bee = new Bee();
 
-                bee.num = i;
+                bee.Number = i;
 
                 bee.X = ApplicationConfig.AI_X;
                 bee.Y = ApplicationConfig.AI_Y;

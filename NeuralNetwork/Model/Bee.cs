@@ -26,7 +26,7 @@ namespace NeuralNetwork.Model
         /// Simulate sensors
         /// </summary>
         /// 
-        public int num { get; set; }
+        public int Number { get; set; }
 
         public int Fitness { get; set; }
 
@@ -74,7 +74,6 @@ namespace NeuralNetwork.Model
                     this._y = value;
                     foreach (Sensor sensor in Sensors)
                     {
-                        //sensor.OriginY = value;
                         sensor.Display.Y1 = value;
                         sensor.Display.Y2 = value + SensorConfig.SENSOR_LENGHT * Math.Sin(sensor.Angle);
                     }

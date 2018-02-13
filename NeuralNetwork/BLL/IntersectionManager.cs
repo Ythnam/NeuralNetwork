@@ -97,7 +97,7 @@ namespace NeuralNetwork.BLL
                 return false;
 
             this.IntersectionX = p1X + u1 * deltaX;
-            this.IntersectionY = p2Y + u1 * deltaY;
+            this.IntersectionY = p1Y + u1 * deltaY;
 
             return true;
         }

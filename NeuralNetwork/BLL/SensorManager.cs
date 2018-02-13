@@ -26,7 +26,9 @@ namespace NeuralNetwork.BLL
                     {
                         GeometricHelper.GetClosestDistance(sensor, CalculateDistance(new Point(sensor.Display.X1, sensor.Display.Y1), new Point(intersectionManager.IntersectionX, intersectionManager.IntersectionY)));
                         sensor.State = 1; // ==> Avec un événement ça aurait été plus propre
-                        //Console.WriteLine("Distance sensor object = " + sensor.DistanceToObject);
+                        //Console.WriteLine("Distance sensor object = " + sensor.DistanceToObject +
+                        //    " intersection (X;Y) = (" + intersectionManager.IntersectionX + ";" + intersectionManager.IntersectionY + ")" +
+                        //    " sensorcoor (X;Y) = (" + sensor.Display.X1 + ";" + sensor.Display.Y1 + ")");
                     }
                 }
 
@@ -45,7 +47,7 @@ namespace NeuralNetwork.BLL
 
         private static double CalculateDistance(Point _origin, Point _intersection)
         {
-            //Console.WriteLine("Distance calculated = " + Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X, 2) + Math.Pow(_origin.Y - _intersection.Y, 2))));
+            Console.WriteLine("Distance calculated = " + Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X, 2) + Math.Pow(_origin.Y - _intersection.Y, 2))));
             return Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X , 2) + Math.Pow(_origin.Y - _intersection.Y , 2)));
         }
     }

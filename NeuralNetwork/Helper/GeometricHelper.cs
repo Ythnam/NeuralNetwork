@@ -121,7 +121,7 @@ namespace NeuralNetwork.Helper
         /// <param name="distance"></param>
         public static void GetClosestDistance(Sensor sensor,double distance)
         {
-            //Console.WriteLine("DistanceToObject = " + sensor.DistanceToObject + ", " + "distance = " + distance);
+            Console.WriteLine("DistanceToObject = " + sensor.DistanceToObject + ", " + "distance = " + distance);
             if (sensor.DistanceToObject > distance)
                 sensor.DistanceToObject = distance;
         }
