@@ -47,7 +47,7 @@ namespace NeuralNetwork.BLL
 
         private static double CalculateDistance(Point _origin, Point _intersection)
         {
-            Console.WriteLine("Distance calculated = " + Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X, 2) + Math.Pow(_origin.Y - _intersection.Y, 2))));
+            //Console.WriteLine("Distance calculated = " + Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X, 2) + Math.Pow(_origin.Y - _intersection.Y, 2))));
             return Math.Abs(Math.Sqrt(Math.Pow(_origin.X - _intersection.X , 2) + Math.Pow(_origin.Y - _intersection.Y , 2)));
         }
     }
