@@ -14,19 +14,22 @@ namespace NeuralNetwork.BLL
     {
         private readonly Random rand;
 
-        public MyNeuralNetwork BestGenome1 { get; set; }
-        public MyNeuralNetwork BestGenome2 { get; set; }
+        //public MyNeuralNetwork BestGenome1 { get; set; }
+        //public MyNeuralNetwork BestGenome2 { get; set; }
+
+        public List<MyNeuralNetwork> BestGenomes { get; set; }
         public List<MyNeuralNetwork> NewGenome { get; set; } // list of 8 genome which containt the 2 bests before, 6 child of those 2 best with sometimes a mutation
 
         public GeneticManager()
         {
+            this.BestGenomes = new List<MyNeuralNetwork>();
             this.NewGenome = new List<MyNeuralNetwork>();
             this.rand = new Random();
         }
 
         public void GenerateNewGenome(List<Bee> bees)
         {
-            this.CreateBestGenomes(bees);
+            this.GetBestGenomes(bees);
             this.LeftRightCrossingGenomes();
             this.OddEvenCrossingGenomes();
             //this.GenerateLastGenomes();
@@ -51,78 +54,73 @@ namespace NeuralNetwork.BLL
 
         public void ResetData()
         {
-            this.BestGenome1 = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
-                                                   NeuralNetworkConfig.NEURON_ON_EACH_LAYER);
-            this.BestGenome2 = new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS,
-                                                   NeuralNetworkConfig.NEURON_ON_EACH_LAYER);
+            this.BestGenomes = new List<MyNeuralNetwork>();
             this.NewGenome = new List<MyNeuralNetwork>();
         }
 
         #region private
-        // Function which get 2 best Genome. I have to update it to be better
-        private void CreateBestGenomes(List<Bee> bees)
+        /// <summary>
+        ///  Function which get best Genome. I have to update it to be better
+        /// </summary>
+        /// <param name="bees"></param>
+        private void GetBestGenomes(List<Bee> bees)
         {
-            Bee best = new Bee();
-            Bee second = new Bee();
+            List<Bee> sortedByFitness = bees.OrderBy(o => o.Fitness).ToList(); // sort by fitness
 
-            foreach (Bee bee in bees)
+            for(int i = 0; i < GeneticConfig.MAX_BEST_FITNESS_TAKEN; i++)
             {
-                if (bee.Fitness >= second.Fitness)
-                {
-                    if (bee.Fitness >= best.Fitness)
-                    {
-                        second = best;
-                        best = bee;
-                    }
-                    else
-                        second = bee;
-                }
+                this.BestGenomes.Add(sortedByFitness[ApplicationConfig.NUMBER_OF_AI - i].NeuralNetwork);
+                Console.WriteLine("Fitness : " + sortedByFitness[ApplicationConfig.NUMBER_OF_AI - i].Fitness);
             }
-
-            Console.WriteLine("Best Bee Fitness : " + best.Fitness);
-            Console.WriteLine("Second Bee Fitness : " + second.Fitness);
-
-            this.BestGenome1 = best.NeuralNetwork;
-            this.BestGenome2 = second.NeuralNetwork;
-
-            this.NewGenome.Add(this.BestGenome1);
-            this.NewGenome.Add(this.BestGenome2);
         }
 
         private void LeftRightCrossingGenomes()
         {
-            int NetworkLayerNbr = NeuralNetworkConfig.NEURON_ON_EACH_LAYER.Length;
-            int splitLayerForCrossing = NetworkLayerNbr / 2;
+            int numberOnIteration = 0;
+            int splitLayerForCrossing = NeuralNetworkConfig.NEURON_ON_EACH_LAYER.Length / 2;
+            List<Neuron> bestNeuronsEvenLeft = new List<Neuron>();
+            List<Neuron> bestNeuronsEvenRight = new List<Neuron>();
+            List<Neuron> bestNeuronsOddLeft = new List<Neuron>();
+            List<Neuron> bestNeuronsOddRight = new List<Neuron>();
 
-            List<Neuron> bestNeurons1Left = new List<Neuron>();
-            List<Neuron> bestNeurons1Right = new List<Neuron>();
-
-            foreach (Neuron neuron in BestGenome1.Neurons)
+            foreach (MyNeuralNetwork neuralNetwork in this.BestGenomes)
             {
-                // -1 because we are on List which go from 0 to N-1
-                if (neuron.NeuralPosition.Item1 <= (splitLayerForCrossing - 1))
-                    bestNeurons1Left.Add(neuron);
+                if((numberOnIteration % 2) == 0)
+                {
+                    foreach (Neuron neuron in neuralNetwork.Neurons)
+                    {
+                        // -1 because we are on List which go from 0 to N-1
+                        if (neuron.NeuralPosition.Item1 <= (splitLayerForCrossing - 1))
+                            bestNeuronsEvenLeft.Add(neuron);
+                        else
+                            bestNeuronsEvenRight.Add(neuron);
+                    }
+                }
                 else
-                    bestNeurons1Right.Add(neuron);
+                {
+                    foreach (Neuron neuron in neuralNetwork.Neurons)
+                    {
+                        if (neuron.NeuralPosition.Item1 <= splitLayerForCrossing - 1)
+                            bestNeuronsOddLeft.Add(neuron);
+                        else
+                            bestNeuronsOddRight.Add(neuron);
+                    }
+
+                    // creat new genomes
+                    bestNeuronsEvenLeft.AddRange(bestNeuronsOddRight); 
+                    bestNeuronsOddLeft.AddRange(bestNeuronsEvenRight);
+
+                    this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeuronsEvenLeft });
+                    this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeuronsOddLeft });
+
+                    bestNeuronsEvenLeft = new List<Neuron>();
+                    bestNeuronsEvenRight = new List<Neuron>();
+                    bestNeuronsOddLeft = new List<Neuron>();
+                    bestNeuronsOddRight = new List<Neuron>();
+                }
+                Debug(neuralNetwork.Neurons);
+                numberOnIteration = numberOnIteration + 1;
             }
-
-            List<Neuron> bestNeurons2Left = new List<Neuron>();
-            List<Neuron> bestNeurons2Right = new List<Neuron>();
-
-            foreach (Neuron neuron in BestGenome2.Neurons)
-            {
-                if (neuron.NeuralPosition.Item1 <= splitLayerForCrossing - 1)
-                    bestNeurons2Left.Add(neuron);
-                else
-                    bestNeurons2Right.Add(neuron);
-            }
-
-            // Add to the left of one network the right of the other
-            bestNeurons1Left.AddRange(bestNeurons2Right);
-            bestNeurons2Left.AddRange(bestNeurons1Right);
-
-            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeurons1Left });
-            this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) { Neurons = bestNeurons2Left });
         }
 
         private void OddEvenCrossingGenomes()
@@ -130,9 +128,9 @@ namespace NeuralNetwork.BLL
             List<Neuron> even = new List<Neuron>();
             List<Neuron> odd = new List<Neuron>();
 
-            for(int i = 0; i < NeuralHelper.NbrOfNeurons(); i++)
+            for (int i = 0; i < NeuralHelper.NbrOfNeurons(); i++)
             {
-                if(this.BestGenome1.Neurons.ElementAt(i).NeuralPosition.Item1 % 2 == 0)
+                if (this.BestGenome1.Neurons.ElementAt(i).NeuralPosition.Item1 % 2 == 0)
                 {
                     even.Add(this.BestGenome1.Neurons.ElementAt(i));
                     odd.Add(this.BestGenome2.Neurons.ElementAt(i));
