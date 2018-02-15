@@ -29,6 +29,10 @@
                 Name="Stop_Timer"
                 Content="Stop projet"
                 Command="{Binding OnStopCommand}" Canvas.Left="216"/>
+            <Button Width="50" Height="20"
+                Name="Debug"
+                Content="Debug"
+                Command="{Binding OnDebugCommand}" Canvas.Left="216"/>
         </StackPanel>
     </Canvas>
 </Window>

@@ -87,6 +87,23 @@ namespace NeuralNetwork.ViewModel
                 return _onStopCommand ?? (_onStopCommand = new RelayCommand(() => OnStop()));
             }
         }
+
+        private ICommand _onDebugCommand;
+        public ICommand OnDebugCommand
+        {
+            get
+            {
+                return _onDebugCommand ?? (_onDebugCommand = new RelayCommand(() => OnDebug()));
+            }
+        }
+
+        private void OnDebug()
+        {
+            foreach(Bee bee in this.sessionManager.Bees)
+            {
+                this.geneticManager.Debug(bee.NeuralNetwork.Neurons);
+            }
+        }
         #endregion
 
         #region Function called by command
@@ -140,10 +157,7 @@ namespace NeuralNetwork.ViewModel
 
             for(int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
             {
-                if(i > 1) // i Don't mutate the 2 best fitness
-                {
-                    this.geneticManager.Mutate(this.geneticManager.NewGenome[i]);
-                }
+                this.geneticManager.Mutate(this.geneticManager.NewGenome[i]);
             }
 
             this.sessionManager.ReGenerateIA(this.geneticManager.NewGenome);
