@@ -1,4 +1,5 @@
-﻿using NeuralNetwork.Model;
+﻿using NeuralNetwork.Config;
+using NeuralNetwork.Model;
 using NeuralNetwork.NeuralNet;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,25 @@ namespace NeuralNetwork.BLL
     {
         public void ManageOutputsOfNetwork(Bee bee)
         {
-            Random rand = new Random();
-
             List<double> inputs = new List<double>();
 
             foreach (Sensor sensor in bee.Sensors)
                 inputs.Add(sensor.DistanceToObject);
 
+
             List<double> coord = bee.NeuralNetwork.ExecuteNetwork(inputs);
+
+            foreach(double d in coord)
+            {
+                Console.WriteLine("Bee " + bee.Number + " =====> " + d);
+            }
 
             // coord[0] = speed
             // coord[1] = left
             // coord[2] = right
 
-            bee.X = bee.X + Math.Cos(bee.Angle) * 2 * coord[0]; // Test
-            bee.Y = bee.Y + Math.Sin(bee.Angle) * 2 * coord[0];
+            bee.X = bee.X + Math.Cos(bee.Angle) * ApplicationConfig.SPEED_RATE * coord[0];
+            bee.Y = bee.Y + Math.Sin(bee.Angle) * ApplicationConfig.SPEED_RATE * coord[0];
 
             // rotationRate > 0 ==> angle[T0] < angle[T] ==> on trigonometric we are going to the left
             // rotationRate < 0 ==> angle[T0] < angle[T] ==> on trigonometric we are going to the right

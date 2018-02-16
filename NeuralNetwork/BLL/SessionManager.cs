@@ -28,6 +28,8 @@ namespace NeuralNetwork.BLL
             this.Bees = new List<Bee>();
             this.Honeys = new List<Honey>();
             this.RandomCoord = new Random();
+
+            this._neuralNetworkManager = new NeuralNetworkManager();
         }
 
         public void GenerateIA()
@@ -54,8 +56,6 @@ namespace NeuralNetwork.BLL
             {
                 this.Honeys.Add(new Honey(RandomCoord.NextDouble() * ApplicationConfig.MAX_WIDTH_PANEL, RandomCoord.NextDouble() * ApplicationConfig.MAX_HEIGHT_PANEL));
             }
-
-            this._neuralNetworkManager = new NeuralNetworkManager();
         }
 
         public void ReGenerateIA(List<MyNeuralNetwork> neuralNetwork)
@@ -65,6 +65,7 @@ namespace NeuralNetwork.BLL
                 this.Bees[i].NeuralNetwork = neuralNetwork[i];
                 this.Bees[i].X = ApplicationConfig.AI_X;
                 this.Bees[i].Y = ApplicationConfig.AI_Y;
+                this.Bees[i].Fitness = 0;
             }
         }
 
@@ -81,6 +82,7 @@ namespace NeuralNetwork.BLL
         public void StopTimer()
         {
             this.timer.Tick -= timer_Tick;
+            this.timer.Stop();
         }
 
         private void timer_Tick(object sender, EventArgs e)

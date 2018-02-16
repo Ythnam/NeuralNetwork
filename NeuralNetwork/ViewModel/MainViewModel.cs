@@ -154,16 +154,9 @@ namespace NeuralNetwork.ViewModel
         {
             this.sessionManager.StopTimer();
             this.geneticManager.GenerateNewGenome(this.sessionManager.Bees);
-
-            for(int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
-            {
-                this.geneticManager.Mutate(this.geneticManager.NewGenome[i]);
-            }
+            this.geneticManager.Mutation();
 
             this.sessionManager.ReGenerateIA(this.geneticManager.NewGenome);
-
-            foreach (Bee bee in this.sessionManager.Bees)
-                bee.Fitness = 0;
 
             foreach (Honey honey in this.sessionManager.Honeys)
             {

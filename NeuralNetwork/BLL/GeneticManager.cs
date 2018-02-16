@@ -68,20 +68,20 @@ namespace NeuralNetwork.BLL
             int otherNetworkNumber;
             // this loop allows to keep a part of gene of each best and worst.
             // This loop create new genomes
-            foreach (MyNeuralNetwork mnn in this.SelectionnedGenomes)
-            {
-                otherNetworkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN -1));
-                while (otherNetworkNumber == i)
-                    otherNetworkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN - 1));
-                Console.WriteLine("Network taken = " + otherNetworkNumber);
+            //foreach (MyNeuralNetwork mnn in this.SelectionnedGenomes)
+            //{
+            //    otherNetworkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN -1));
+            //    while (otherNetworkNumber == i)
+            //        otherNetworkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN - 1));
+            //    Console.WriteLine("Network taken = " + otherNetworkNumber);
 
-                this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) {
-                    Neurons = this.CrossingGenomes(mnn, this.SelectionnedGenomes.ElementAt(otherNetworkNumber)) });
+            //    this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER) {
+            //        Neurons = this.CrossingGenomes(mnn, this.SelectionnedGenomes.ElementAt(otherNetworkNumber)) });
 
-                i++;
-            }
+            //    i++;
+            //}
 
-            for(int ite = 0; ite < (ApplicationConfig.NUMBER_OF_AI - (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN)); ite++)
+            for(int ite = 0; ite < (ApplicationConfig.NUMBER_OF_AI /*- (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN)*/); ite++)
             {
                 otherNetworkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN - 1));
                 int networkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN - 1));
@@ -119,7 +119,7 @@ namespace NeuralNetwork.BLL
         }
 
 
-        public void Mutate(MyNeuralNetwork mnn)
+        private void Mutate(MyNeuralNetwork mnn)
         {
             foreach (Neuron neur in mnn.Neurons)
             {
@@ -135,7 +135,7 @@ namespace NeuralNetwork.BLL
             }
         }
 
-        private void Mutation()
+        public void Mutation()
         {
             foreach(MyNeuralNetwork mnn in this.NewGenome)
             {
