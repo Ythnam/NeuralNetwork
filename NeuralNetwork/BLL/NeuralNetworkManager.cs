@@ -16,15 +16,15 @@ namespace NeuralNetwork.BLL
             List<double> inputs = new List<double>();
 
             foreach (Sensor sensor in bee.Sensors)
-                inputs.Add(sensor.DistanceToObject);
+                inputs.Add((sensor.DistanceToObject / SensorConfig.SENSOR_LENGHT)); // the division allows to keep the value between [0-100] which allows to be easely between [0-6] for a sigmoid -> ]0-1[
 
 
             List<double> coord = bee.NeuralNetwork.ExecuteNetwork(inputs);
 
-            foreach(double d in coord)
-            {
-                Console.WriteLine("Bee " + bee.Number + " =====> " + d);
-            }
+            //foreach(double d in coord)
+            //{
+            //    Console.WriteLine("Bee " + bee.Number + " =====> " + d);
+            //}
 
             // coord[0] = speed
             // coord[1] = left

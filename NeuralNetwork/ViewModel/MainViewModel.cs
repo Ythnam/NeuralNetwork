@@ -154,7 +154,7 @@ namespace NeuralNetwork.ViewModel
         {
             this.sessionManager.StopTimer();
             this.geneticManager.GenerateNewGenome(this.sessionManager.Bees);
-            this.geneticManager.Mutation();
+            //this.geneticManager.Mutation();
 
             this.sessionManager.ReGenerateIA(this.geneticManager.NewGenome);
 

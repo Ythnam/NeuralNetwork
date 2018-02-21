@@ -86,6 +86,7 @@
     <Compile Include="Config\NeuralNetworkConfig.cs" />
     <Compile Include="Config\SensorConfig.cs" />
     <Compile Include="Helper\GeometricHelper.cs" />
+    <Compile Include="Helper\ListHelper.cs" />
     <Compile Include="Helper\NeuralHelper.cs" />
     <Compile Include="Model\Honey.cs" />
     <Compile Include="Model\Bee.cs" />

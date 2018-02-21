@@ -60,6 +60,7 @@ namespace NeuralNetwork.BLL
 
         public void ReGenerateIA(List<MyNeuralNetwork> neuralNetwork)
         {
+            Console.WriteLine("nbr of neuralnetwork generated = " + neuralNetwork.Count);
             for (int i = 0; i < ApplicationConfig.NUMBER_OF_AI; i++)
             {
                 this.Bees[i].NeuralNetwork = neuralNetwork[i];
