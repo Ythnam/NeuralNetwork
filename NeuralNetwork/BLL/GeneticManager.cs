@@ -30,6 +30,7 @@ namespace NeuralNetwork.BLL
         public void GenerateNewGenome(List<Bee> bees)
         {
             this.SelectGenomes(bees);
+            this.KeepBestGenome();
             this.Crossing();
             //this.GenerateLastGenomes();
             //this.Mutation();
@@ -50,10 +51,10 @@ namespace NeuralNetwork.BLL
         {
             List<Bee> sortedByFitness = bees.OrderBy(o => o.Fitness).ToList(); // sort by fitness
 
-            foreach (Bee bee in sortedByFitness)
-            {
-                this.DebugCrossing("choosen " + bee.Number, bee.NeuralNetwork.Neurons);
-            }
+            //foreach (Bee bee in sortedByFitness)
+            //{
+            //    this.DebugCrossing("choosen " + bee.Number, bee.NeuralNetwork.Neurons);
+            //}
 
             // Get bests genomes
             for (int i = 0; i < GeneticConfig.MAX_BEST_FITNESS_TAKEN; i++)
@@ -62,14 +63,29 @@ namespace NeuralNetwork.BLL
                 //Console.WriteLine("Fitness : " + sortedByFitness[ApplicationConfig.NUMBER_OF_AI - i - 1].Fitness);
             }
 
-            foreach (MyNeuralNetwork mnn in this.SelectionnedGenomes)
-            {
-                this.DebugCrossing("Selectionned Genome = ", mnn.Neurons);
-            }
+            //foreach (MyNeuralNetwork mnn in this.SelectionnedGenomes)
+            //{
+            //    this.DebugCrossing("Selectionned Genome = ", mnn.Neurons);
+            //}
 
             // Get worst genomes
             for (int i = 0; i < GeneticConfig.MAX_WORST_FITNESS_TAKEN; i++)
                 this.SelectionnedGenomes.Add(sortedByFitness[i].NeuralNetwork);
+        }
+
+        /// <summary>
+        /// Allows to keep the 10 best of each generations
+        /// </summary>
+        private void KeepBestGenome()
+        {
+            for(int i = 0; i < GeneticConfig.MAX_BEST_FITNESS_TAKEN; i++)
+            {
+                List<Neuron> neurons = this.SelectionnedGenomes[i].Neurons.Select(neuron => new Neuron(neuron)).ToList();
+                this.NewGenome.Add(new MyNeuralNetwork(NeuralNetworkConfig.NUMBER_OF_INPUTS, NeuralNetworkConfig.NEURON_ON_EACH_LAYER, this.rand)
+                {
+                    Neurons = neurons
+                });
+            }           
         }
 
         private void Crossing()
@@ -77,9 +93,10 @@ namespace NeuralNetwork.BLL
             int otherNetworkNumber;
             List<Neuron> neurons = new List<Neuron>();
             // this loop allows to keep a part of gene of each best and worst.
-            // This loop create new genomes
 
-            for(int ite = 0; ite < (ApplicationConfig.NUMBER_OF_AI /*- (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN)*/); ite++)
+
+            // This loop create new genomes
+            for(int ite = 0; ite < (ApplicationConfig.NUMBER_OF_AI - GeneticConfig.MAX_BEST_FITNESS_TAKEN); ite++)
             {
                 int networkNumber;
                 lock (this.rand)
@@ -88,9 +105,9 @@ namespace NeuralNetwork.BLL
                     networkNumber = (int)(this.rand.NextDouble() * (GeneticConfig.MAX_BEST_FITNESS_TAKEN + GeneticConfig.MAX_WORST_FITNESS_TAKEN - 1));
                 }
 
-                Console.WriteLine(" -- otherNetworkNumber = " + otherNetworkNumber + " ; networkNumber = " + networkNumber);
-                this.DebugCrossing("choosen1  ", this.SelectionnedGenomes.ElementAt(otherNetworkNumber).Neurons);
-                this.DebugCrossing("choosen2  ", this.SelectionnedGenomes.ElementAt(networkNumber).Neurons);
+                //Console.WriteLine(" -- otherNetworkNumber = " + otherNetworkNumber + " ; networkNumber = " + networkNumber);
+                //this.DebugCrossing("choosen1  ", this.SelectionnedGenomes.ElementAt(otherNetworkNumber).Neurons);
+                //this.DebugCrossing("choosen2  ", this.SelectionnedGenomes.ElementAt(networkNumber).Neurons);
 
                 lock (this.NewGenome)
                 {
@@ -108,13 +125,13 @@ namespace NeuralNetwork.BLL
         private List<Neuron> CrossingGenomes(MyNeuralNetwork _choosenOne, MyNeuralNetwork _choosenTwo)
         {
 
-            this.DebugCrossing("       One", _choosenOne.Neurons);
-            this.DebugCrossing("       Two", _choosenTwo.Neurons);
+            //this.DebugCrossing("       One", _choosenOne.Neurons);
+            //this.DebugCrossing("       Two", _choosenTwo.Neurons);
 
             // Do a deepcopy (Serialize the List<Neuron>
             // The problem is a deepcopy is needed because neuron is a reference of _choosenOne. A change on one change the other then my NeuralNetwork converge to an unique specimen
-            List<Neuron> neurons = ListHelper.DeepCopy(_choosenOne.Neurons);
-
+            List<Neuron> neurons = _choosenOne.Neurons.Select(neuron => new Neuron(neuron)).ToList();
+            
             this.DebugCrossing("       Tre", neurons);
 
             for (int i = 0; i < neurons.Count; i++)
@@ -140,9 +157,9 @@ namespace NeuralNetwork.BLL
                 }
             }
 
-            this.DebugCrossing("choosenOne", _choosenOne.Neurons);
-            this.DebugCrossing("choosenTwo", _choosenTwo.Neurons);
-            this.DebugCrossing("return    ", neurons);
+            //this.DebugCrossing("choosenOne", _choosenOne.Neurons);
+            //this.DebugCrossing("choosenTwo", _choosenTwo.Neurons);
+            //this.DebugCrossing("return    ", neurons);
 
             return neurons;      
         }

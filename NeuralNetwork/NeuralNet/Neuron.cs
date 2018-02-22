@@ -26,6 +26,14 @@ namespace NeuralNetwork.NeuralNet
             this.Weights = new List<double>();
         }
 
+
+        public Neuron(Tuple<int, int> _neuralPosition, List<double> _inputs, List<double> _weights)
+        {
+            this.NeuralPosition = _neuralPosition;
+            this.Inputs = _inputs;
+            this.Weights = _weights;
+        }
+
         //public Neuron(List<double> _inputs, List<double> _weights, Tuple<int, int> _neuralPosition)
         //{
         //    this.Inputs = _inputs;
@@ -37,8 +45,8 @@ namespace NeuralNetwork.NeuralNet
 
         public Neuron(Neuron _neuron)
         {
-            this.Inputs = _neuron.Inputs;
-            this.Weights = _neuron.Weights;
+            this.Inputs = new List<double>(_neuron.Inputs);
+            this.Weights = new List<double>(_neuron.Weights);
             this.NeuralPosition = _neuron.NeuralPosition;
 
             this.CheckLenght();

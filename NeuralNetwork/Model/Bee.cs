@@ -107,10 +107,14 @@ namespace NeuralNetwork.Model
             Sensor _sensor1 = new Sensor(0);
             Sensor _sensor2 = new Sensor(+Math.PI / 8);
             Sensor _sensor3 = new Sensor(-Math.PI / 8);
+            Sensor _sensor4 = new Sensor(+Math.PI / 16);
+            Sensor _sensor5 = new Sensor(-Math.PI / 16);
 
             this.Sensors.Add(_sensor1);
             this.Sensors.Add(_sensor2);
             this.Sensors.Add(_sensor3);
+            this.Sensors.Add(_sensor4);
+            this.Sensors.Add(_sensor5);
             this.Angle = 0;
 
             this.Fitness = 0;
