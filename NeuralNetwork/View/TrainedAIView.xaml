@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="NeuralNetwork.View.TrainedAIView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeuralNetwork.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             DataContext="{Binding TrainedAIViewModel, Source={StaticResource Locator}}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoadGenerateAICommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
+    <Grid>
+        <Canvas Background="AliceBlue">
+            <ContentPresenter Content="{Binding TrainedCanvas}" />
+        </Canvas>
+    </Grid>
+</UserControl>

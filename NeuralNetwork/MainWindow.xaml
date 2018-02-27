@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800"
+        Title="MainWindow" Height="1300" Width="1700"
         
         xmlns:Control="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:Vm="clr-namespace:NeuralNetwork.ViewModel"
+        xmlns:Views="clr-namespace:NeuralNetwork.View"
                      
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
@@ -16,29 +18,38 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
 
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type Vm:TrainingAIViewModel}">
+            <Views:TrainingAIView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type Vm:TrainedAIViewModel}">
+            <Views:TrainedAIView/>
+        </DataTemplate>
+    </Window.Resources>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding OnLoadMainWindowCommand}"/>
+            <i:InvokeCommandAction Command="{Binding OnStartSessionTimerCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Canvas>
-        <ContentPresenter Content="{Binding MainCanvas}"/>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-        <Button Width="50" Height="20"
-                Name="Genrate_Neurons"
-                Content="Generate Neurons"
-                Command="{Binding OnGenerateAICommand}" Canvas.Left="216"/>
-        <Button Width="50" Height="20"
-                Name="Stop_Timer"
-                Content="Stop projet"
-                Command="{Binding OnStopCommand}" Canvas.Left="216"/>
-            <Button Width="50" Height="20"
-                Name="Debug"
-                Content="Debug"
-                Command="{Binding OnDebugCommand}" Canvas.Left="216"/>
-        </StackPanel>
-    </Canvas>
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--Content-->
+            <RowDefinition Height="2*"/>
+            <!--Footer-->
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+
+        <Views:TrainingAIView  Grid.Column="0" Grid.Row="1"
+                            Visibility="Visible"/>
+        <Views:TrainedAIView   Grid.Column="2" Grid.Row="1"
+                            Visibility="Visible"/>
+    </Grid>
 </Control:MetroWindow>

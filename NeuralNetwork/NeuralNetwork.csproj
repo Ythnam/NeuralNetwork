@@ -95,7 +95,15 @@
     <Compile Include="NeuralNet\NeuralFunction.cs" />
     <Compile Include="NeuralNet\Neuron.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\TrainedAIViewModel.cs" />
+    <Compile Include="ViewModel\TrainingAIViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\TrainedAIView.xaml.cs">
+      <DependentUpon>TrainedAIView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TrainingAIView.xaml.cs">
+      <DependentUpon>TrainingAIView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,6 +116,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\TrainedAIView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TrainingAIView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

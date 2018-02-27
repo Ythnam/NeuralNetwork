@@ -93,6 +93,37 @@ namespace NeuralNetwork.NeuralNet
             }
         }
 
+        public void CopyWeightsOnNetwork(List<double> _weights)
+        {
+            int cache = 0;
+            // 2 case : Neuron on first layer and others
+            foreach (Neuron neuron in Neurons)
+            {
+                if (neuron.NeuralPosition.Item1 == 0)
+                {
+                    for (int i = 0; i < numberOfInputs; i++)
+                    {
+                        neuron.Weights.Add(_weights[cache]);
+                        cache = cache + 1;
+                        //Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weights = " + neuron.Weights[i]);
+                    }
+                }
+                else
+                {
+                    // Get previous neuron and add 1 Weight for each previous neuron
+
+                    for (int i = 0; i < this.nomberOfNeuroneForEachLayer[neuron.NeuralPosition.Item1 - 1]; i++)
+                    {
+                        // GetWeight allows negativ weights
+                        neuron.Weights.Add(_weights[cache]);
+                        cache = cache + 1;
+                        //Console.WriteLine("Neuron ==> i = " + neuron.NeuralPosition.Item1 + ", j = " + neuron.NeuralPosition.Item2 + " ==> Weight"+i+" = " + neuron.Weights[i]);
+
+                    }
+                }
+            }
+        }
+
         public List<double> ExecuteNetwork(List<double> _inputs)
         {
             //Check if lenght of the list of inputs is eguals to the number of neurons of 1st layer

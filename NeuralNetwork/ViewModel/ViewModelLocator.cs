@@ -43,6 +43,8 @@ namespace NeuralNetwork.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<TrainingAIViewModel>();
+            SimpleIoc.Default.Register<TrainedAIViewModel>();
         }
 
         public MainViewModel Main
@@ -52,7 +54,23 @@ namespace NeuralNetwork.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
+        public TrainingAIViewModel TrainingAIViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TrainingAIViewModel>();
+            }
+        }
+
+        public TrainedAIViewModel TrainedAIViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TrainedAIViewModel>();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
