@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using NeuralNetwork.BLL;
 using NeuralNetwork.Config;
+using NeuralNetwork.Event;
 using NeuralNetwork.Model;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,14 @@ namespace NeuralNetwork.ViewModel
             this.geneticManager = new GeneticManager();
             this.randomCoord = new Random();
 
+            this.sessionManager.New_MyTimerTick += New_My_Tick;
+
             MessengerInstance.Register<bool>(this, "NewGenome", (action) => NewGenome(action));
+        }
+
+        private void New_My_Tick(object source, NewMyTimerTickEventArgs e)
+        {
+            MessengerInstance.Send<double>(e.GetTimer(), "Timer");
         }
 
         private void NewGenome(bool action)
@@ -85,6 +93,7 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
+        // Managed by the MainView which send a trigger eache session timer tick
         public void IA()
         {
             this.sessionManager.StopTimer();

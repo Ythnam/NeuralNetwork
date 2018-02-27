@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1300" Width="1700"
+        Title="MainWindow" Height="800" Width="1700"
         
         xmlns:Control="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -13,7 +13,7 @@
         xmlns:Views="clr-namespace:NeuralNetwork.View"
                      
         BorderBrush="{DynamicResource AccentColorBrush}"
-        BorderThickness="1"
+        BorderThickness="3"
                      
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
@@ -36,19 +36,34 @@
     <Grid>
         <Grid.RowDefinitions>
             <!--Content-->
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
             <!--Footer-->
-            <RowDefinition Height="90*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
 
+        <TextBlock Grid.Column="0" Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Text="Training Session"/>
         <Views:TrainingAIView  Grid.Column="0" Grid.Row="1"
                             Visibility="Visible"/>
+
+        <TextBlock Grid.Column="1" Grid.Row="0"
+            Text="{Binding DisplayTimer}"
+            />
+
+        <TextBlock Grid.Column="2" Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="30"
+                   Text="Trained AI"/>
         <Views:TrainedAIView   Grid.Column="2" Grid.Row="1"
                             Visibility="Visible"/>
     </Grid>

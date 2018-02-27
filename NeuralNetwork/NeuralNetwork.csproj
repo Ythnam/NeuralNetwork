@@ -85,6 +85,7 @@
     <Compile Include="Config\GeneticConfig.cs" />
     <Compile Include="Config\NeuralNetworkConfig.cs" />
     <Compile Include="Config\SensorConfig.cs" />
+    <Compile Include="Event\NewMyTimerTickEventArgs.cs" />
     <Compile Include="Helper\GeometricHelper.cs" />
     <Compile Include="Helper\ListHelper.cs" />
     <Compile Include="Helper\NeuralHelper.cs" />

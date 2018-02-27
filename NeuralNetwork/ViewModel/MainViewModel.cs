@@ -37,9 +37,28 @@ namespace NeuralNetwork.ViewModel
         /// </summary>
         /// 
         private DispatcherTimer sessionTimer = null;
+        private double _displayTimer;
+        public double DisplayTimer {
+            get { return this._displayTimer; }
+            set
+            {
+                if (this._displayTimer != value)
+                {
+                    this._displayTimer = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         public MainViewModel()
         {
+            this.DisplayTimer = ApplicationConfig.TIME_DISPLAY_EVENT;
+            MessengerInstance.Register<double>(this, "Timer", (action) => GetTimer(action));
+        }
+
+        private void GetTimer(double action)
+        {
+            this.DisplayTimer = ApplicationConfig.TIME_SESSION_EVENT - action;
         }
 
         #region Command
@@ -71,11 +90,13 @@ namespace NeuralNetwork.ViewModel
             this.sessionTimer.Tick += session_timer_Tick;
             this.sessionTimer.Start();
             this.sessionTimer.IsEnabled = true;
+
+            this.DisplayTimer = 0;
         }
 
         private void session_timer_Tick(object sender, EventArgs e)
         {
-            MessengerInstance.Send<bool>(true, "NewGenome");
+            MessengerInstance.Send<bool>(true, "NewGenome"); // not the best method but it is simple and didn't lost lot of memory because it's a boolean
         }
 
         #endregion
