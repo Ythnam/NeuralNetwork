@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetwork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1700"
+        Title="MainWindow" Height="800" Width="1800"
         
         xmlns:Control="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -43,7 +43,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
 
@@ -53,11 +53,21 @@
                    FontSize="30"
                    Text="Training Session"/>
         <Views:TrainingAIView  Grid.Column="0" Grid.Row="1"
-                            Visibility="Visible"/>
+                               Padding="0,25,0,0"
+                               Visibility="Visible"/>
 
-        <TextBlock Grid.Column="1" Grid.Row="0"
-            Text="{Binding DisplayTimer}"
-            />
+        <StackPanel Grid.Column="1" Grid.Row="0"
+                    Orientation="Vertical">
+            <TextBlock VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="25"
+                       Text="{Binding GenerationIteration}"
+                       Padding="0,5,0,5"/>
+            <TextBlock VerticalAlignment="Center"
+                       FontSize="25"
+                       Padding="0,5,0,5"
+                       Text="{Binding DisplayTimer}"/>
+        </StackPanel>
 
         <TextBlock Grid.Column="2" Grid.Row="0"
                    HorizontalAlignment="Center"
@@ -65,6 +75,7 @@
                    FontSize="30"
                    Text="Trained AI"/>
         <Views:TrainedAIView   Grid.Column="2" Grid.Row="1"
-                            Visibility="Visible"/>
+                               Padding="0,25,0,0"
+                               Visibility="Visible"/>
     </Grid>
 </Control:MetroWindow>

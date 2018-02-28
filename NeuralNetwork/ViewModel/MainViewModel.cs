@@ -37,6 +37,7 @@ namespace NeuralNetwork.ViewModel
         /// </summary>
         /// 
         private DispatcherTimer sessionTimer = null;
+
         private double _displayTimer;
         public double DisplayTimer {
             get { return this._displayTimer; }
@@ -50,15 +51,33 @@ namespace NeuralNetwork.ViewModel
             }
         }
 
+        private int _generationIteration;
+        public int GenerationIteration
+        {
+            get { return this._generationIteration; }
+            set
+            {
+                if (this._generationIteration != value)
+                {
+                    this._generationIteration = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
         public MainViewModel()
         {
-            this.DisplayTimer = ApplicationConfig.TIME_DISPLAY_EVENT;
             MessengerInstance.Register<double>(this, "Timer", (action) => GetTimer(action));
+            this.GenerationIteration = 0;
         }
 
         private void GetTimer(double action)
         {
-            this.DisplayTimer = ApplicationConfig.TIME_SESSION_EVENT - action;
+            if (ApplicationConfig.TIME_SESSION_EVENT - action > 0)
+                this.DisplayTimer = ApplicationConfig.TIME_SESSION_EVENT - action;
+            else
+                this.DisplayTimer = 0;
         }
 
         #region Command
@@ -86,7 +105,7 @@ namespace NeuralNetwork.ViewModel
         private void StartSessionTimer()
         {
             this.sessionTimer = new DispatcherTimer();
-            this.sessionTimer.Interval = new TimeSpan(0, 0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT);
+            this.sessionTimer.Interval = new TimeSpan(0, 0, 0, ApplicationConfig.TIME_SESSION_EVENT, 0);
             this.sessionTimer.Tick += session_timer_Tick;
             this.sessionTimer.Start();
             this.sessionTimer.IsEnabled = true;
@@ -97,6 +116,7 @@ namespace NeuralNetwork.ViewModel
         private void session_timer_Tick(object sender, EventArgs e)
         {
             MessengerInstance.Send<bool>(true, "NewGenome"); // not the best method but it is simple and didn't lost lot of memory because it's a boolean
+            this.GenerationIteration += 1;
         }
 
         #endregion

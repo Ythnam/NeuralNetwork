@@ -18,7 +18,7 @@ namespace NeuralNetwork.BLL
         private Random RandomCoord;
 
         public event NewMyTimerTickEvent New_MyTimerTick;
-        private double ticktimer;
+        private DateTime Ticktimer { get; set; }
 
         private NeuralNetworkManager _neuralNetworkManager;
         private DispatcherTimer timer = null;
@@ -33,9 +33,9 @@ namespace NeuralNetwork.BLL
             this.Honeys = new List<Honey>();
             this.RandomCoord = new Random();
 
-            this.ticktimer = 0;
-
             this._neuralNetworkManager = new NeuralNetworkManager();
+
+            this.Ticktimer = DateTime.Now;
         }
 
         public void GenerateIA()
@@ -115,12 +115,16 @@ namespace NeuralNetwork.BLL
         {
             this.timer.Tick -= timer_Tick;
             this.timer.Stop();
-            this.ticktimer = 0;
+            this.timer.IsEnabled = false;
+
+            this.Ticktimer = DateTime.Now;
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this.ticktimer += ApplicationConfig.TIME_DISPLAY_EVENT * 10;
+            var CurrentValue = DateTime.Now - this.Ticktimer;
+            //Console.WriteLine("TickTimer : " + CurrentValue.Milliseconds);
+
             foreach (Bee bee in this.Bees)
             {
                 SensorManager.Detection(bee, this.Honeys);
@@ -142,7 +146,7 @@ namespace NeuralNetwork.BLL
 
 
             if (this.New_MyTimerTick != null)
-                New_MyTimerTick(this, new NewMyTimerTickEventArgs(this.ticktimer));
+                New_MyTimerTick(this, new NewMyTimerTickEventArgs((double)CurrentValue.Seconds + ((double)CurrentValue.Milliseconds / 1000)));
         }
         #endregion
     }

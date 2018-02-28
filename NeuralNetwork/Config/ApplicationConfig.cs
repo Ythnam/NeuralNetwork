@@ -22,8 +22,8 @@ namespace NeuralNetwork.Config
 
         public static int MAX_WIDTH_PANEL = 800;
         public static int MAX_HEIGHT_PANEL = 600;
-        public static int TIME_DISPLAY_EVENT = 10;
-        public static int TIME_SESSION_EVENT = 30000;
+        public static int TIME_DISPLAY_EVENT = 10; // Millisecond
+        public static int TIME_SESSION_EVENT = 30; //Second
 
 
     }
